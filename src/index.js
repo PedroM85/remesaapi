@@ -1,13 +1,8 @@
-import Express from "express";
-import employeesRoutes from "./routes/employees.routes.js";
-import indexRoutes from "./routes/index.routes.js";
+import app from "./app.js";
+import { PORT } from "./config.js"
 
-const app = Express()
 
-app.use(Express.json())
 
-app.use('/api', indexRoutes)
-app.use('/api', employeesRoutes)
 
-app.listen(3000)
-console.log("server Running")
+app.listen(PORT)
+console.log('server Running on port', PORT )
