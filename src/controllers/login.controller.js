@@ -34,5 +34,7 @@ export const getLogin = async (req, res) => {
 }
 
 export const getInfo = async (req, res) => {
-    res.json('AAAA');
+    return res.status(201).json({
+        message: 'AAA'
+    })
 }
