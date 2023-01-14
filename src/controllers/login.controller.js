@@ -20,14 +20,16 @@ export const getLogin = async (req, res) => {
                 expiresIn: '1h'
             });
             res.json({
+                USR_Id: rows[0].USR_Id,
+                USR_Name: rows[0].USR_Name,
                 message: 'Autenticacion exitosa',
                 token: token
-            });            
+            });
             console.log(token)
 
         }
     } catch (error) {
-        return res.status(500).json({
+        return res.status(401).json({
             message: 'Something gows wrong'
         })
     }
@@ -37,4 +39,20 @@ export const getInfo = async (req, res) => {
     return res.status(201).json({
         message: 'AAA'
     })
+}
+
+export const postRegister = async (req, res) => {
+    try {
+        const { ULO_Id, ULO_TRM, ULO_Name, ULO_Ip } = req.body        
+                
+        const [rows] = await pool.query('INSERT INTO SYS_UserLoggedOn (ULO_Id,ULO_TRM,ULO_Name,ULO_Ip,ULO_CreatedDateTime) VALUES (?,?,?,?,?)', [ULO_Id,ULO_TRM,ULO_Name,ULO_Ip,new Date()])
+        res.send({
+            message: 'Autenticacion exitosa'
+        })
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Something gows wrong'
+        })
+        console.log(error)
+    }
 }
