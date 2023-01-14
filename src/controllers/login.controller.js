@@ -54,13 +54,13 @@ export const postRegisterLogin = async (req, res) => {
             message: 'Something gows wrong'
         })
     }
-    console.log(error)
+    // console.log(error)
 }
 
 export const postRegisterLogout = async (req, res) => {
     try {
         const { ULO_Id } = req.body
-        console.log(req.body)
+        // console.log(req.body)
 
         const [rows] = await pool.query('DELETE FROM SYS_UserLoggedOn WHERE ULO_Id = (?)', [ULO_Id])
         res.send({
@@ -71,5 +71,5 @@ export const postRegisterLogout = async (req, res) => {
             message: 'Something goes wrong'
         })
     }
-    console.log(error)
+    // console.log(error)
 }
