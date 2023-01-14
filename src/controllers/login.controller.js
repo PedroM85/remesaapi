@@ -41,11 +41,11 @@ export const getInfo = async (req, res) => {
     })
 }
 
-export const postRegister = async (req, res) => {
+export const postRegisterLogin = async (req, res) => {
     try {
-        const { ULO_Id, ULO_TRM, ULO_Name, ULO_Ip } = req.body        
-                
-        const [rows] = await pool.query('INSERT INTO SYS_UserLoggedOn (ULO_Id,ULO_TRM,ULO_Name,ULO_Ip,ULO_CreatedDateTime) VALUES (?,?,?,?,?)', [ULO_Id,ULO_TRM,ULO_Name,ULO_Ip,new Date()])
+        const { ULO_Id, ULO_TRM, ULO_Name, ULO_Ip } = req.body
+
+        const [rows] = await pool.query('INSERT INTO SYS_UserLoggedOn (ULO_Id,ULO_TRM,ULO_Name,ULO_Ip,ULO_CreatedDateTime) VALUES (?,?,?,?,?)', [ULO_Id, ULO_TRM, ULO_Name, ULO_Ip, new Date()])
         res.send({
             message: 'Autenticacion exitosa'
         })
@@ -53,6 +53,23 @@ export const postRegister = async (req, res) => {
         return res.status(401).json({
             message: 'Something gows wrong'
         })
-        console.log(error)
     }
+    console.log(error)
+}
+
+export const postRegisterLogout = async (req, res) => {
+    try {
+        const { ULO_Id } = req.body
+        console.log(req.body)
+
+        const [rows] = await pool.query('DELETE FROM SYS_UserLoggedOn WHERE ULO_Id = (?)', [ULO_Id])
+        res.send({
+            message: 'Logout exitosa'
+        })
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Something goes wrong'
+        })
+    }
+    console.log(error)
 }

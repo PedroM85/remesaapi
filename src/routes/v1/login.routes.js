@@ -1,7 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { KEYJWT } from "../../config.js"
-import { getLogin, getInfo, postRegister } from "../../controllers/login.controller.js";
+import { getLogin, getInfo,  postRegisterLogout, postRegisterLogin } from "../../controllers/login.controller.js";
 
 const router = Router();
 
@@ -9,7 +9,9 @@ const verificacion = Router();
 
 router.post('/loginIn', getLogin);
 
-router.post('/RegisterLogin', postRegister);
+router.post('/RegisterLogin', postRegisterLogin);
+
+router.post('/RegisterLogout', postRegisterLogout);
 
 // router.get('/info', getInfo);
 router.get('/info', verificacion, getInfo);
