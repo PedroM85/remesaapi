@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const getLogin = async (req, res) => {
     try {
-
+        console.log(req.body.USR_IpAddress)
         const [rows] = await pool.query('SELECT * FROM sys_users WHERE USR_Id = ? AND USR_Password = ?', [req.body.USR_Id, req.body.USR_Password])
 
         if (rows.length <= 0) {
@@ -22,6 +22,7 @@ export const getLogin = async (req, res) => {
             res.json({
                 USR_Id: rows[0].USR_Id,
                 USR_Name: rows[0].USR_Name,
+                USR_IpAddress: req.body.USR_IpAddress,
                 message: 'Autenticacion exitosa',
                 token: token
             });
