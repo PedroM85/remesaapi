@@ -1,20 +1,20 @@
 import { Router } from "express";
 import { delCliente, getCliente, getClienteId, postCliente, putCliente } from "../../controllers/cliente.controller.js";
-
+import  veri  from "../../middleware/verification.js";
 
 
 const router = Router()
 
 
-router.get('/GetCliente', getCliente)
+router.get('/GetCliente', veri, getCliente)
 
-router.get('/GetClientes/:USR_Id', getClienteId)
+router.get('/GetClientes/:USR_Id', veri, getClienteId)
 
-router.post('/CreateCliente', postCliente)
+router.post('/CreateCliente', veri, postCliente)
 
-router.patch('/UpdateCliente/:USR_Id', putCliente)
+router.patch('/UpdateCliente/:USR_Id', veri, putCliente)
 
-router.delete('/DeleteCliente/:USR_Id', delCliente)
+router.delete('/DeleteCliente/:USR_Id', veri, delCliente)
 
 
 export default router

@@ -7,7 +7,7 @@ import loginIn from "./routes/v1/login.routes.js"
 import GetTasa from "./routes/v1/tasa.routes.js";
 import GetSocio from "./routes/v1/socio.routes.js"
 import GetCli from "./routes/v1/cliente.routes.js";
-
+import getBancos from  "./routes/v1/banco.routes.js";
 
 
 const app = Express()
@@ -27,6 +27,8 @@ app.use(v1, GetTasa)
 app.use(v1, GetSocio)
 //Cliente
 app.use(v1, GetCli)
+//Banco
+app.use(v1, getBancos)
 
 
 app.use((req, res, next) => {
