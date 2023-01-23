@@ -6,6 +6,7 @@ import employeesRoutes from "./routes/v1/employees.routes.js";
 import indexRoutes from "./routes/v1/index.routes.js";
 import loginIn from "./routes/v1/login.routes.js"
 import GetTasa from "./routes/v1/tasa.routes.js";
+import GetSocio from "./routes/v1/socio.routes.js"
 
 
 
@@ -22,6 +23,8 @@ app.use(v1, employeesRoutes)
 app.use(v1, Openning)
 //Objecto Tasa
 app.use(v1, GetTasa)
+//Socios
+app.use(v1, GetSocio)
 
 
 app.use((req, res, next) => {
