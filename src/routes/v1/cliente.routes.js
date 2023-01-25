@@ -6,7 +6,7 @@ import  veri  from "../../middleware/verification.js";
 const router = Router()
 
 
-router.get('/GetCliente', veri, getCliente)
+router.get('/GetClientes', veri, getCliente)
 
 router.get('/GetClientes/:USR_Id', veri, getClienteId)
 

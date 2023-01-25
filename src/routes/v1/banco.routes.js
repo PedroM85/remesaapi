@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { delBanco, getAccountTyoe, getBancoId, getBancos, postBanco, putBanco } from "../../controllers/banco.controller.js";
+import { delBanco, getAccountType, getAccount,  getBancoId, getBancos, postBanco, putBanco } from "../../controllers/banco.controller.js";
 import veri from "../../middleware/verification.js";
 
 
@@ -11,7 +11,9 @@ router.get('/GetBancos', veri, getBancos)
 
 router.get('/GetBanco/:BAN_Id', veri, getBancoId)
 
-router.get('/GetAccountType',veri, getAccountTyoe)
+router.get('/GetAccountType',veri, getAccountType)
+
+router.get('/GetAccount',veri, getAccount)
 
 router.post('/CreateBanco', veri, postBanco)
 

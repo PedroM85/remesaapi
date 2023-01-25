@@ -3,8 +3,12 @@ import { pool } from "../db/db.js";
 
 export const getCliente = async (req, res) => {
     try {
-
-        const [rows] = await pool.query('SELECT * FROM Cli_Data WHERE CLI_Active = 1')
+        const Querys= 'SELECT CLI_Id, CLI_Nombre, BAN_Name, CLI_Cuenta,CLI_Titular,CLI_Cedula,CLI_CreatedDateTime,\
+        CLI_ModifiedDateTime, CLI_ModifiedBy, CLI_Active FROM CLI_Data \
+        INNER JOIN CLI_Bank ON CLI_Data.CLI_Banco = CLI_Bank.BAN_Id \
+        WHERE CLI_Active = 1'
+        // const [rows] = await pool.query('SELECT * FROM CLI_Data WHERE CLI_Active = 1')
+        const [rows] = await pool.query(Querys)
 
         if (rows.length <= 0) {
             return res.status(201).json({
@@ -23,8 +27,10 @@ export const getCliente = async (req, res) => {
 
 export const getClienteId = async (req, res) => {
     try {
-
-        const [rows] = await pool.query('SELECT * FROM Cli_Data WHERE CLI_Active = 1 AND CLI_Id')
+        const { CLI_Id } = req.body
+        const Querys = ('SELECT * FROM CLI_Data WHERE CLI_Active = 1 AND CLI_Id = ?')
+        const Values = [req.body.CLI_Id]
+        const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
             return res.status(201).json({
@@ -43,9 +49,14 @@ export const getClienteId = async (req, res) => {
 
 export const postCliente = async (req, res) => {
     try {
-        const Query = 'INSERT INTO OP_Socio (SOC_Name,SOC_Telefono,SOC_CreatedDateTime,SOC_ModifiedDateTime,SOC_ModifiedBy,SOC_Active) VALUES (?,?,?,?,?,?)'
-        const Values =  [req.body.SOC_Name,req.body.SOC_Telefono,new Date(),new Date(),req.body.SOC_ModifiedBy,1]
-        const [rows] = await pool.query(Query,Values)
+        
+        const { CLI_Nombre, CLI_Banco, CLI_Cuenta, CLI_Titular, CLI_Cedula, CLI_ModifiedBy, CLI_Active } = req.body
+        console.log(req.body)
+        const Query = 'INSERT INTO CLI_Data (CLI_Nombre,CLI_Banco,CLI_Cuenta,CLI_Titular,CLI_Cedula,CLI_CreatedDateTime, \
+            CLI_ModifiedDateTime,CLI_ModifiedBy,CLI_Active) VALUES (?,?,?,?,?,?,?,?,?)'
+        const Values = [req.body.CLI_Nombre, req.body.CLI_Banco, req.body.CLI_Cuenta, req.body.CLI_Titular, req.body.CLI_Cedula,
+        new Date(), new Date(), req.body.CLI_ModifiedBy, req.body.CLI_Active]
+        const [rows] = await pool.query(Query, Values)
         if (rows.length <= 0) {
             return res.status(201).json({
                 message: 'no hay registros previos'
@@ -64,9 +75,12 @@ export const postCliente = async (req, res) => {
 export const putCliente = async (req, res) => {
     try {
         console.log(req.body)
-        const Query = 'UPDATE OP_Socio SET SOC_Name = ? ,SOC_Telefono = ?,SOC_ModifiedDateTime = ?,SOC_ModifiedBy = ?, SOC_Active = ? WHERE SOC_Id = ?'
-        const Values =  [req.body.SOC_Name,req.body.SOC_Telefono,new Date(),req.body.SOC_ModifiedBy,req.body.SOC_Active, req.body.SOC_Id]
-        const [rows] = await pool.query(Query,Values)
+        const { CLI_Id, CLI_Name, CLI_Banco, CLI_Cuenta, CLI_Titular, CLI_Cedula, CLI_ModifiedBy, CLI_Active } = req.body
+        const Query = 'UPDATE CLI_Data SET CLI_Name = ? ,CLI_Banco = ?, CLI_Cuenta = ?, CLI_Titular = ?, CLI_Cedula = ?, \
+                    CLI_ModifiedDateTime = ?,CLI_ModifiedBy = ?, CLI_Active = ? WHERE CLI_Id = ?'
+        const Values = [req.body.CLI_Name, req.body.CLI_Banco, req.body.CLI_Cuenta, req.body.CLI_Titular, req.body.CLI_Cedula,
+        new Date(), req.body.CLI_ModifiedBy, req.body.CLI_Active, req.body.CLI_Id]
+        const [rows] = await pool.query(Query, Values)
 
         if (rows.length <= 0) {
             return res.status(201).json({
@@ -85,8 +99,9 @@ export const putCliente = async (req, res) => {
 
 export const delCliente = async (req, res) => {
     try {
-        const Query = 'UPDATE OP_Socio SET SOC_ModifiedDateTime = ?,SOC_ModifiedBy = ?, SOC_Active = ? WHERE SOC_Id = ?'
-        const Values =  [new Date(),req.body.SOC_ModifiedBy,req.body.SOC_Active,req.body.SOC_Id]
+        const { CLI_ModifiedBy, CLI_Active, CLI_Id } = req.body
+        const Query = 'UPDATE CLI_Data SET CLI_ModifiedDateTime = ?,CLI_ModifiedBy = ?, CLI_Active = ? WHERE CLI_Id = ?'
+        const Values = [new Date(), req.body.CLI_ModifiedBy, req.body.CLI_Active, req.body.CLI_Id]
         const [rows] = await pool.query(Query, Values)
 
         if (rows.length <= 0) {
