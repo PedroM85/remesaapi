@@ -9,7 +9,7 @@ const router = Router()
 
 router.get('/GetBancos', veri, getBancos)
 
-router.get('/GetBanco/:BAN_Id', veri, getBancoId)
+router.get('/GetBanco', veri, getBancoId)
 
 router.get('/GetAccountType',veri, getAccountType)
 

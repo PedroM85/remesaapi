@@ -8,13 +8,13 @@ const router = Router()
 
 router.get('/GetClientes', veri, getCliente)
 
-router.get('/GetClientes/:USR_Id', veri, getClienteId)
+router.get('/GetClientes', veri, getClienteId)
 
 router.post('/CreateCliente', veri, postCliente)
 
-router.patch('/UpdateCliente/:USR_Id', veri, putCliente)
+router.put('/UpdateCliente', veri, putCliente)
 
-router.delete('/DeleteCliente/:USR_Id', veri, delCliente)
+router.delete('/DeleteCliente', veri, delCliente)
 
 
 export default router
