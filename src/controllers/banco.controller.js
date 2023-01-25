@@ -139,7 +139,7 @@ export const getAccountType = async (req, res) => {
 
 export const getAccount = async (req, res) => {
     try {
-        const Querys = 'SELECT BAN_Id,  BAN_Name ,BAN_Prefix,BAN_ModifiedBy,BAN_Active, \
+        const Querys = 'SELECT BAN_Id, Concat(BAN_Name," ",BAN_ACC_Name)AS BAN_Name ,BAN_Prefix,BAN_ModifiedBy,BAN_Active, \
         BAN_CreatedDateTime,BAN_ModifiedDateTime FROM CLI_Bank \
         INNER JOIN CLI_BanAccount ON CLI_Bank.BAN_Type = CLI_BanAccount.BAN_ACC_Id \
         WHERE BAN_Active = 1'

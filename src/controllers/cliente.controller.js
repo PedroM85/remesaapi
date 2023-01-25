@@ -3,9 +3,10 @@ import { pool } from "../db/db.js";
 
 export const getCliente = async (req, res) => {
     try {
-        const Querys = 'SELECT CLI_Id, CLI_Nombre,CLI_Banco, BAN_Name, CLI_Cuenta,CLI_Titular,CLI_Cedula,CLI_CreatedDateTime,\
-        CLI_ModifiedDateTime, CLI_ModifiedBy, CLI_Active FROM CLI_Data \
+        const Querys = 'SELECT CLI_Id, CLI_Nombre,CLI_Banco,  concat(BAN_Name, " ",BAN_ACC_Name) AS BAN_Name, CLI_Cuenta,CLI_Titular, \
+        CLI_Cedula,CLI_CreatedDateTime, CLI_ModifiedDateTime, CLI_ModifiedBy, CLI_Active FROM CLI_Data \
         INNER JOIN CLI_Bank ON CLI_Data.CLI_Banco = CLI_Bank.BAN_Id \
+        INNER JOIN CLI_BanAccount ON CLI_Bank.BAN_Type= CLI_BanAccount.BAN_ACC_Id \
         WHERE CLI_Active = 1'
         // const [rows] = await pool.query('SELECT * FROM CLI_Data WHERE CLI_Active = 1')
         const [rows] = await pool.query(Querys)
