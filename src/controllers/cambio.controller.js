@@ -1,4 +1,3 @@
-import { query } from "express";
 import { pool } from "../db/db.js";
 import moment from "moment-timezone"
 
