@@ -3,7 +3,57 @@ import { pool } from "../db/db.js";
 export const getTasa = async (req, res) => {
     try {
 
-        const [rows] = await pool.query('SELECT * FROM OP_Tasa WHERE TAS_Active = 1')
+        const Querys = 'SELECT * FROM OP_Tasa\
+                        WHERE OP_Tasa.TAS_Active = 1\
+                        ORDER BY TAS_Id desc'
+
+        const [rows] = await pool.query(Querys)
+
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'no hay registros previos'
+            })
+        } else {
+            res.json(rows);
+        }
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Algo va mal en tasa.controller'
+        })
+    }
+
+}
+
+export const getTasaCliente = async (req, res) => {
+    try {
+
+        const Querys = 'SELECT TAS_Id,concat(DATE_FORMAT(TAS_Date, "%d/%m/%y"), " -> ", TAS_TasaCliente) AS TAS_TasaCli,\
+        TAS_TasaCLiente, TAS_TasaMayorista FROM OP_Tasa WHERE TAS_Active = 1 ORDER BY TAS_Id DESC'
+
+        const [rows] = await pool.query(Querys)
+
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'no hay registros previos'
+            })
+        } else {
+            res.json(rows);
+        }
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Algo va mal en tasa.controller'
+        })
+    }
+
+}
+
+export const getTasaMayorista = async (req, res) => {
+    try {
+
+        const Querys = 'SELECT TAS_Id,concat(DATE_FORMAT(TAS_Date, "%d/%m/%y"), " -> ", TAS_TasaMayorista) AS TAS_TasaMayo,TAS_TasaCLiente,\
+         TAS_TasaMayorista FROM OP_Tasa WHERE TAS_Active = 1 ORDER BY TAS_Id DESC'
+
+        const [rows] = await pool.query(Querys)
 
         if (rows.length <= 0) {
             return res.status(201).json({
