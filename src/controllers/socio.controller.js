@@ -4,7 +4,7 @@ import { pool } from "../db/db.js";
 export const getSocio = async (req, res) => {
     try {
 
-        const [rows] = await pool.query('SELECT * FROM OP_Socio WHERE SOC_Active = 1')
+        const [rows] = await pool.query('SELECT * FROM OP_Socios WHERE SOC_Active = 1')
 
         if (rows.length <= 0) {
             return res.status(201).json({

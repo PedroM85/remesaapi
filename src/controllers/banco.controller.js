@@ -19,8 +19,9 @@ export const getBancos = async (req, res) => {
         }
     } catch (error) {
         return res.status(401).json({
-            message: 'Algo va mal en Banco.controller'
+            message: error.message+ 'Algo va mal en Banco.controller'
         })
+        console.log(error.message)
     }
 
 }

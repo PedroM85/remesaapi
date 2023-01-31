@@ -17,13 +17,11 @@ veri.use((req, res, next) => {
     console.log(token)
     if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length);
-        console.log("desde vali");
-        console.log(token);
+        
     }
 
     if (token) {
-        console.log("veri 25")
-        console.log(token)
+        
         jwt.verify(token, KEYJWT, (error, decoded) => {
             if (error) {
                 return res.json({

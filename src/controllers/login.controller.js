@@ -1,5 +1,6 @@
 import { pool } from "../db/db.js";
 import { KEYJWT } from "../config.js"
+import moment from "moment-timezone"
 import jwt from "jsonwebtoken";
 
 
@@ -23,6 +24,7 @@ export const getLogin = async (req, res) => {
                 USR_Id: rows[0].USR_Id,
                 USR_Name: rows[0].USR_Name,
                 USR_IpAddress: req.body.USR_IpAddress,
+                USR_SessionEnd: moment(new Date()).add(1, 'hour').format("YYYY-MM-DD HH:mm:ss"),
                 message: 'Autenticacion exitosa',
                 token: token
             });
