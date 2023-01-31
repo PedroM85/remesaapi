@@ -15,7 +15,7 @@ export const getCambios = async (req, res) => {
         WHERE OP_Remesas.OP_Date BETWEEN CONCAT(CURRENT_DATE(), " 00:00:00") AND CONCAT(CURRENT_DATE(), " 23:59:59")\
         AND OP_Remesas.OP_Active = 1\
         ORDER BY OP_Remesas.OP_Id DESC'
-        console.log(Querys)
+        // console.log(Querys)
         const [rows] = await pool.query(Querys)
 
         if (rows.length <= 0) {
@@ -100,18 +100,48 @@ export const putCambio = async (req, res) => {
     try {
 
         const { OP_Id, OP_Date, OP_Socio, OP_Cliente, OP_Pesos, OP_Tasa_id, OP_USTDBuy, OP_USTDSell, OP_Status_Id, OP_Operation,
-             OP_ModifiedDateTime, OP_ModifiedBy, OP_Active } = req.body
+            OP_ModifiedDateTime, OP_ModifiedBy, OP_Active } = req.body
 
         const Querys = 'UPDATE OP_Remesas SET OP_Socio = ?,OP_Cliente = ?,OP_Pesos = ?,OP_Tasa_id = ?\
         ,OP_USTDBuy = ?,OP_USTDSell = ?,OP_Status_Id = ?,OP_Operation = ?,OP_ModifiedDateTime = ?,\
         OP_ModifiedBy = ?,OP_Active = ? WHERE OP_Id = ?'
         //const Date1 = moment(OP_Date).format("YYYY-MM-DD HH:mm:ss");
-        const Date2 = moment(OP_CreatedDateTime).format("YYYY-MM-DD HH:mm:ss");
+        const Date2 = moment(OP_ModifiedDateTime).format("YYYY-MM-DD HH:mm:ss");
         const Values = [req.body.OP_Socio, req.body.OP_Cliente, req.body.OP_Pesos, req.body.OP_Tasa_id,
         req.body.OP_USTDBuy, req.body.OP_USTDSell, req.body.OP_Status_Id, req.body.OP_Operation,
-            Date2, req.body.OP_ModifiedBy, req.body.OP_Active]
+            Date2, req.body.OP_ModifiedBy, req.body.OP_Active, req.body.OP_Id]
 
-        console.log(Values)
+        // console.log(Values)
+        const [rows] = await pool.query(Querys, Values)
+
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'no hay registros previos'
+            })
+
+        } else {
+            res.json(rows);
+        }
+
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Algo va mal en Cambio.controller'
+        })
+    }
+
+}
+
+export const delCambio = async (req, res) => {
+    try {
+
+        const { OP_Id,  OP_ModifiedBy, OP_Active } = req.body
+
+        const Querys = 'UPDATE OP_Remesas SET OP_ModifiedDateTime = ?,OP_ModifiedBy = ?,OP_Active = ? WHERE OP_Id = ?'
+        //const Date1 = moment(OP_Date).format("YYYY-MM-DD HH:mm:ss");
+        const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+        const Values = [Date2, req.body.OP_ModifiedBy, req.body.OP_Active, req.body.OP_Id]
+
+        // console.log(Values)
         const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
