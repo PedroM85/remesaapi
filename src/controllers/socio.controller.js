@@ -43,7 +43,7 @@ export const postSocio = async (req, res) => {
 
 export const putSocio = async (req, res) => {
     try {
-        console.log(req.body)
+        //console.log(req.body)
         const Query = 'UPDATE OP_Socio SET SOC_Name = ? ,SOC_Telefono = ?,SOC_ModifiedDateTime = ?,SOC_ModifiedBy = ?, SOC_Active = ? WHERE SOC_Id = ?'
         const Values =  [req.body.SOC_Name,req.body.SOC_Telefono,new Date(),req.body.SOC_ModifiedBy,req.body.SOC_Active, req.body.SOC_Id]
         const [rows] = await pool.query(Query,Values)

@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { getCambiosDiarios } from "../../controllers/dashboard.controller.js";
-import  veri  from "../../middleware/verification.js";
+import { getCambiosDiarios, getTotalMensual } from "../../controllers/dashboard.controller.js";
+import veri from "../../middleware/verification.js";
 
 const router = Router()
 
-router.post('/GetDashboard', veri, getCambiosDiarios)
+router.post('/PostDashboard', veri, getCambiosDiarios)
+
+router.get('/TotalInfo',veri, getTotalMensual)
+
+
 
 export default router
