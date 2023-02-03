@@ -1,4 +1,3 @@
-import { query } from "express";
 import { pool } from "../db/db.js";
 
 export const getBancos = async (req, res) => {
