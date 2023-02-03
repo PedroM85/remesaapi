@@ -3,8 +3,8 @@ import { pool } from "../db/db.js";
 
 export const getOpenning = async (req, res) => {
     try {
-        console.log("aa")
-        console.log(req.body)
+        
+        
         const [rows] = await pool.query('SELECT * FROM STD_SalesDate WHERE SDT_DateClosed = ? AND SDT_SIT_Id =?', [req.body.SDT_DateClosed, req.body.SDT_SIT_Id])
         // console.log(rows)
         if (rows.length <= 0) {

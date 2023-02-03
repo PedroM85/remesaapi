@@ -1,4 +1,3 @@
-import { query } from "express";
 import { pool } from "../db/db.js";
 
 export const getBancos = async (req, res) => {
@@ -21,7 +20,7 @@ export const getBancos = async (req, res) => {
         return res.status(401).json({
             message: error.message+ 'Algo va mal en Banco.controller'
         })
-        console.log(error.message)
+        //console.log(error.message)
     }
 
 }
@@ -49,7 +48,7 @@ export const getBancoId = async (req, res) => {
 export const postBanco = async (req, res) => {
     try {
         const { BAN_Name, BAN_Prefix, BAN_Type, BAN_ModifiedBy } = req.body
-        console.log(req.body)
+        //console.log(req.body)
         const Query = 'INSERT INTO CLI_Bank (BAN_Name,BAN_Type,BAN_Prefix,BAN_CreatedDateTime,BAN_ModifiedDateTime, \
                         BAN_ModifiedBy,BAN_Active) VALUES (?,?,?,?,?,?,?)'
         const Values = [req.body.BAN_Name, req.body.BAN_Type, req.body.BAN_Prefix, new Date(), new Date(), req.body.BAN_ModifiedBy, 1]
@@ -74,7 +73,7 @@ export const postBanco = async (req, res) => {
 export const putBanco = async (req, res) => {
     try {
         const { BAN_Name, BAN_Prefix, BAN_Type, BAN_ModifiedBy, BAN_Active, BAN_Id } = req.body
-        console.log(req.body)
+        ////console.log(req.body)
 
         const Query = 'UPDATE CLI_Bank SET BAN_Name = ? ,BAN_Prefix = ?,BAN_Type = ?, BAN_ModifiedDateTime = ?, \
                         BAN_ModifiedBy = ?, BAN_Active = ? WHERE BAN_Id = ?'

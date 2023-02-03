@@ -52,7 +52,7 @@ export const postCliente = async (req, res) => {
     try {
 
         const { CLI_Nombre, CLI_Banco, CLI_Cuenta, CLI_Titular, CLI_Cedula, CLI_ModifiedBy, CLI_Active } = req.body
-        console.log(req.body)
+        //////console.log(req.body)
         const Query = 'INSERT INTO CLI_Data (CLI_Nombre,CLI_Banco,CLI_Cuenta,CLI_Titular,CLI_Cedula,CLI_CreatedDateTime, \
             CLI_ModifiedDateTime,CLI_ModifiedBy,CLI_Active) VALUES (?,?,?,?,?,?,?,?,?)'
         const Values = [req.body.CLI_Nombre, req.body.CLI_Banco, req.body.CLI_Cuenta, req.body.CLI_Titular, req.body.CLI_Cedula,
@@ -75,7 +75,7 @@ export const postCliente = async (req, res) => {
 
 export const putCliente = async (req, res) => {
     try {
-        console.log(req.body)
+        //////console.log(req.body)
         const { CLI_Name, CLI_Banco, CLI_Cuenta, CLI_Titular, CLI_Cedula, CLI_ModifiedBy, CLI_Active, CLI_Id } = req.body
         const Query = 'UPDATE CLI_Data SET CLI_Nombre = ? ,CLI_Banco = ?, CLI_Cuenta = ?, CLI_Titular = ?, CLI_Cedula = ?, \
                     CLI_ModifiedDateTime = ?,CLI_ModifiedBy = ?, CLI_Active = ? WHERE CLI_Id = ?'

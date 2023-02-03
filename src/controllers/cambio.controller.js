@@ -15,7 +15,7 @@ export const getCambios = async (req, res) => {
         WHERE OP_Remesas.OP_Date BETWEEN CONCAT(CURRENT_DATE(), " 00:00:00") AND CONCAT(CURRENT_DATE(), " 23:59:59")\
         AND OP_Remesas.OP_Active = 1\
         ORDER BY OP_Remesas.OP_Id DESC'
-        // console.log(Querys)
+        // //console.log(Querys)
         const [rows] = await pool.query(Querys)
 
         if (rows.length <= 0) {
@@ -65,7 +65,7 @@ export const postCambio = async (req, res) => {
         const { OP_Date, OP_Socio, OP_Cliente, OP_Pesos, OP_Tasa_id, OP_USTDBuy, OP_USTDSell, OP_Status_Id,
             OP_Operation, OP_CreatedDateTime, OP_ModifiedDateTime, OP_ModifiedBy, OP_Active } = req.body
 
-        //console.log(req.body)
+        ////console.log(req.body)
 
         const Querys = 'INSERT INTO OP_Remesas(OP_Date,OP_Socio,OP_Cliente,OP_Pesos,OP_Tasa_id,OP_USTDBuy,OP_USTDSell,\
             OP_Status_Id,OP_Operation,OP_CreatedDateTime,OP_ModifiedDateTime,OP_ModifiedBy,OP_Active)\
@@ -77,7 +77,7 @@ export const postCambio = async (req, res) => {
             req.body.OP_USTDBuy, req.body.OP_USTDSell, req.body.OP_Status_Id, req.body.OP_Operation,
             Date2, Date2, req.body.OP_ModifiedBy, req.body.OP_Active]
 
-        console.log(Values)
+        //console.log(Values)
         const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
@@ -111,7 +111,7 @@ export const putCambio = async (req, res) => {
         req.body.OP_USTDBuy, req.body.OP_USTDSell, req.body.OP_Status_Id, req.body.OP_Operation,
             Date2, req.body.OP_ModifiedBy, req.body.OP_Active, req.body.OP_Id]
 
-        // console.log(Values)
+        // //console.log(Values)
         const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
@@ -141,7 +141,7 @@ export const delCambio = async (req, res) => {
         const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
         const Values = [Date2, req.body.OP_ModifiedBy, req.body.OP_Active, req.body.OP_Id]
 
-        // console.log(Values)
+        // //console.log(Values)
         const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
