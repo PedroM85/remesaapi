@@ -13,6 +13,7 @@ export const getGasto = async (req, res) => {
             })
         } else {
             res.json(rows);
+            //console.log(error.message)
         }
     } catch (error) {
         return res.status(401).json({
