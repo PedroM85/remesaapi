@@ -10,6 +10,7 @@ import GetCli from "./routes/v1/cliente.routes.js";
 import getBancos from  "./routes/v1/banco.routes.js";
 import getCambios from "./routes/v1/cambio.routes.js";
 import getDasboard from "./routes/v1/dashboard.routes.js";
+import gasto from "./routes/v1/gasto.routes.js";
 
 
 const app = Express()
@@ -35,6 +36,8 @@ app.use(v1, getBancos)
 app.use(v1, getCambios)
 //Dashboard
 app.use(v1, getDasboard)
+//Gasto
+app.use(v1, gasto)
 
 app.use((req, res, next) => {
     res.status(404).json({
