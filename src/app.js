@@ -9,8 +9,9 @@ import GetSocio from "./routes/v1/socio.routes.js"
 import GetCli from "./routes/v1/cliente.routes.js";
 import getBancos from  "./routes/v1/banco.routes.js";
 import getCambios from "./routes/v1/cambio.routes.js";
-import getDasboard from "./routes/v1/dashboard.routes.js";
+import Dashboard from "./routes/v1/dashboard.routes.js";
 import gasto from "./routes/v1/gasto.routes.js";
+import bancoso from "./routes/v1/bancoso.routes.js";
 
 
 const app = Express()
@@ -35,9 +36,11 @@ app.use(v1, getBancos)
 //Cambios
 app.use(v1, getCambios)
 //Dashboard
-app.use(v1, getDasboard)
+app.use(v1, Dashboard)
 //Gasto
 app.use(v1, gasto)
+//Banco Socios
+app.use(v1, bancoso)
 
 app.use((req, res, next) => {
     res.status(404).json({
