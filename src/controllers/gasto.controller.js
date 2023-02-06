@@ -24,18 +24,18 @@ export const getGasto = async (req, res) => {
 
 }
 
-export const postGasto = async (req,res) => {
-    try{
-        
+export const postGasto = async (req, res) => {
+    try {
+
         const Date1 = moment(GAT_Date).format("YYYY-MM-DD HH:mm:ss");
         const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-        const {GAT_Date,GAT_Reason,GAT_Amount,GAT_ModifiedBy,GAT_Active} = req.body
+        const { GAT_Date, GAT_Reason, GAT_Amount, GAT_ModifiedBy, GAT_Active } = req.body
 
         const Querys = 'INSERT INTO STD_Gastos (GAT_Date,GAT_Reason,GAT_Amount,GAT_CreatedDateTime,GAT_ModifiedDateTime,\
             GAT_ModifiedBy,GAT_Active) VALUES(?,?,?,?,?,?,?)'
-        const Values = [Date1,req.body.GAT_Reason,req.body.GAT_Amount,Date2,Date2,req.body.GAT_ModifiedBy,req.body.GAT_Active]
+        const Values = [Date1, req.body.GAT_Reason, req.body.GAT_Amount, Date2, Date2, req.body.GAT_ModifiedBy, req.body.GAT_Active]
 
-        const [rows] = await pool.query(Querys,Values)
+        const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
             return res.status(201).json({
@@ -45,7 +45,7 @@ export const postGasto = async (req,res) => {
             res.json(rows);
         }
 
-    }catch(error) {
+    } catch (error) {
         return res.status(401).json({
             message: error.message + 'Algo va mal en Gasto.controller'
         })
