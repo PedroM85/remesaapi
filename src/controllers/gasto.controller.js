@@ -7,7 +7,8 @@ export const getGasto = async (req, res) => {
         GAT_Amount,GAT_CreatedDateTime,GAT_ModifiedDateTime,GAT_ModifiedBy,GAT_Active FROM STD_Gastos\
         INNER JOIN OP_Socios ON STD_Gastos.GAT_SOC_Id = OP_Socios.SOC_Id\
         INNER JOIN OP_Socios_Bank ON STD_Gastos.GAT_OSB_Id = OP_Socios_Bank.OSB_Id\
-        INNER JOIN OP_Socios_Bank_Type ON STD_Gastos.GAT_OSBT_Id = OP_Socios_Bank_Type.OSBT_Id'
+        INNER JOIN OP_Socios_Bank_Type ON STD_Gastos.GAT_OSBT_Id = OP_Socios_Bank_Type.OSBT_Id\
+        WHERE GAT_Active = 1'
 
         const [rows] = await pool.query(Querys)
 
@@ -56,7 +57,7 @@ export const postGasto = async (req, res) => {
 
         const { GAT_Date, GAT_SOC_Id, GAT_OSB_Id, GAT_OSBT_Id, GAT_Reason, GAT_Amount, GAT_ModifiedBy, GAT_Active } = req.body
 
-        const Date1 = moment(GAT_Date).format("YYYY-MM-DD HH:mm:ss");
+        const Date1 = moment(GAT_Date).format("YYYY-MM-DD");
         const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
         const Querys = 'INSERT INTO STD_Gastos (GAT_Date,GAT_SOC_Id,GAT_OSB_Id,GAT_OSBT_Id,GAT_Reason,GAT_Amount,\
