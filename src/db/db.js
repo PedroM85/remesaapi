@@ -8,5 +8,6 @@ export const pool= createPool({
     database: DB_DATABASE,
     user: DB_USER,
     password: DB_PASSWORD,
+    multipleStatements: true,
 
 })
