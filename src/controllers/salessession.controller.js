@@ -31,35 +31,13 @@ export const PostSessionInfo = async (req, res) => {
 
 export const PostOpenSalesDate = async (req, res) => {
     try {
-        const { SDT_DateClosed } = req.body
+        const { SDT_ModifiedBy } = req.body
 
-        const Querys = 'SET @OpenedSalesDateId;\
-                        SET @NewSalesDateId;\
-                        SET @TodayId;\
-                        SET TodayId = NOW();\
-        SELECT MAX(SDT_Id) INTO OpenedSalesDateId FROM STD_SalesDate WHERE SDT_DateClosed IS NULL ;\
-            IF OpenedSalesDateId IS NULL THEN\
-                SELECT IFNULL(MAX(SDT_DateClosed),{d "1900-01-01"}) FROM STD_SalesDate;\
-                SELECT MAX(SDT_Id) INTO NewSalesDateId FROM STD_SalesDate;\
-                IF NewSalesDateId IS NULL THEN\
-                    SET NewSalesDateId = TodayId;\
-                ELSE\
-                    SET NewSalesDateId = ADDDATE(NewSalesDateId,1);\
-                        IF NewSalesDateId < TodayId THEN\
-                            SET NewSalesDateId = TodayId;\
-                        END IF;\
-                        INSERT INTO STD_SalesDate \
-                        (SDT_Id,SDT_DateOpened,SDT_USR_OpenedBy,SDT_USR_ClosedBy,SDT_PreviousDateClosed,SDT_CreatedDateTime,SDT_ModifiedDateTime,\
-                        SDT_ModifiedBy, SDT_Active)\
-                        VALUES(NewSalesDateID,NOW(),UserID,NULL,NULL,LastClosedDay,NOW(),NOW(),ModifiedBy,1);\
-                        INSERT INTO STD_Counter(CNT_Id,CNT_NumChange,CNT_AmountChange,CNT_USR_Id,CNT_CreatedDateTime,CNT_ModifiedDateTime)\
-                        VALUES(NewSalesDateId,0,0,"Admin",NOW(),NOW());\
-                END IF;\
-            END IF;'
-        console.log(Querys)
-        const Values = [req.body.SDT_DateClosed]
+        const Querys = 'call postOpenSalesDate(?)'
+        // console.log(Querys)
+        const Values = [req.body.SDT_ModifiedBy]
 
-        const [rows] = await pool.query(Querys, Values)
+        const [rows] = await pool.query(Querys,Values)
         //console.log(rows)
         if (rows.length <= 0) {
             return res.status(201).json({
