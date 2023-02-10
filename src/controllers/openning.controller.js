@@ -18,7 +18,7 @@ export const getSalesDateInfo = async (req, res) => {
                 message: 'Autenticacion exitosa'
             });
         }
-    } catch (error) {
+    } catch (error) {        
         return res.status(401).json({
             message: error.message + 'Algo va mal en openning'
         })

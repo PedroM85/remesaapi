@@ -5,7 +5,7 @@ import { getSalesDateInfo, PostSessionsPerSalesDate } from "../../controllers/op
 
 const router = Router()
 
-router.post('/SalesDateInfo', veri, getSalesDateInfo);
+router.get('/GetSalesDateInfo', veri, getSalesDateInfo);
 
 router.post('/GetSessionSalesDate', veri, PostSessionsPerSalesDate)
 

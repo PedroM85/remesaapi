@@ -38,7 +38,7 @@ export const PostOpenSalesDate = async (req, res) => {
         const Values = [req.body.SDT_ModifiedBy]
 
         const [rows] = await pool.query(Querys,Values)
-        //console.log(rows)
+        console.log(rows + "a")
         if (rows.length <= 0) {
             return res.status(201).json({
                 message: 'No hay dia aperturado'
@@ -49,10 +49,14 @@ export const PostOpenSalesDate = async (req, res) => {
             });
         }
     } catch (error) {
-        return res.status(401).json({
-            message: error.message + ' - SalesSession Linea 32'
-        })
-    }
+        
+            return res.status(400).json({
+                message: error.sqlMessage
+            })
+
+        }
+        
+    
 
 }
 
