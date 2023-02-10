@@ -1,11 +1,11 @@
 import { pool } from "../db/db.js";
 
 
-export const getSalesDateInfo = async (req, res) => {
+export const GetSalesDateInfo = async (req, res) => {
     try {
         
-        const Querys = 'SELECT SDT_Id, SDT_DateOpened, (SELECT COUNT(*) FROM SYS_UserLoggedOn)AS UsersLoggedOn\
-         FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
+        const Querys = 'SELECT SDT_Id, SDT_DateOpened, (SELECT COUNT(*) FROM SYS_UserLoggedOn)AS UsersLoggedOn,\
+        ("dia aperturado") AS Message FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
 
         const [rows] = await pool.query(Querys)
         // console.log(rows)
@@ -14,9 +14,7 @@ export const getSalesDateInfo = async (req, res) => {
                 Message: 'No hay dia aperturado'
             })
         } else {
-            res.json({
-                message: 'Autenticacion exitosa'
-            });
+            res.json(rows);
         }
     } catch (error) {        
         return res.status(401).json({

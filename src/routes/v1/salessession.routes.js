@@ -7,7 +7,7 @@ const router = Router()
 
 router.post('/PostSessionInfo', veri, PostSessionInfo)
 
-router.get('/PostCloseSalesDate', veri, PostCloseSalesDate)
+router.post('/PostCloseSalesDate', veri, PostCloseSalesDate)
 
 router.post('/PostOpenSalesDate', veri, PostOpenSalesDate)
 
