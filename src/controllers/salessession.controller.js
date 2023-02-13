@@ -1,5 +1,5 @@
 import { pool } from "../db/db.js";
-
+import moment from "moment-timezone";
 
 export const PostSessionInfo = async (req, res) => {
     try {
@@ -38,7 +38,7 @@ export const PostOpenSalesDate = async (req, res) => {
         const Values = [req.body.SDT_ModifiedBy]
 
         const [rows] = await pool.query(Querys,Values)
-        console.log(rows + "a")
+        
         if (rows.length <= 0) {
             return res.status(201).json({
                 message: 'No hay dia aperturado'
@@ -75,16 +75,43 @@ export const PostCloseSalesDate = async (req, res) => {
                 message: 'Dia de venta cerrado'
             })
         } else {
+            res.json(rows);
+        }
+    } catch (error) {
+        return res.status(401).json(
+            [error]
+        )
+    }
+
+}
+
+export const PostReOpenSession = async(req,res) =>{
+    try {
+        const { nSessionId } = req.body
+
+        const Querys = 'call postReOpenSession(?)'
+        // console.log(Querys)
+        const Values = [req.body.SDT_ModifiedBy]
+
+        const [rows] = await pool.query(Querys,Values)
+        
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'No hay dia aperturado'
+            })
+        } else {
             res.json({
                 message: 'Autenticacion exitosa'
             });
         }
     } catch (error) {
-        return res.status(401).json({
-            message: error.message
-        })
-    }
+        
+            return res.status(400).json({
+                message: error.sqlMessage
+            })
 
+        }
+        
+    
 }
-
 
