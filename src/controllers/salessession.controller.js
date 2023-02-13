@@ -69,7 +69,7 @@ export const PostCloseSalesDate = async (req, res) => {
         const Values = [req.body.SDT_ModifiedBy]
 
         const [rows] = await pool.query(Querys,Values)
-        // console.log(rows)        
+        console.log(rows)        
         if (rows.length <= 0) {
             return res.status(201).json({
                 message: 'Dia de venta cerrado'
@@ -79,7 +79,7 @@ export const PostCloseSalesDate = async (req, res) => {
         }
     } catch (error) {
         return res.status(401).json(
-            [error]
+            error.message
         )
     }
 
@@ -103,6 +103,37 @@ export const PostReOpenSession = async(req,res) =>{
             res.json({
                 message: 'Autenticacion exitosa'
             });
+        }
+    } catch (error) {
+        
+            return res.status(400).json({
+                message: error.sqlMessage
+            })
+
+        }
+        
+    
+}
+
+export const PostPaymentTypePerSession = async(req,res) =>{
+    try {
+        const { nSessionId } = req.body
+
+        const Querys = 'SELECT OSB_Id,OSB_Nombre, IFNULL(SSP_SalesAmount,0) AS SSP_SalesAmount FROM STD_SessionPaymentType\
+        RIGHT JOIN OP_Socios_Bank ON SSP_OSB_Id = OSB_Id\
+        AND SSP_SSS_Id = ?\
+        WHERE OSB_Active = 1'
+        // console.log(Querys)
+        const Values = [req.body.nSessionId]
+
+        const [rows] = await pool.query(Querys,Values)
+        
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'No hay dia aperturado'
+            })
+        } else {
+            res.json(rows);
         }
     } catch (error) {
         

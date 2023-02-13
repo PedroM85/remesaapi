@@ -78,7 +78,8 @@ export const PostCloseSession = async (req, res) => {
         }
     } catch (error) {
         return res.status(401).json({
-            message: error.message + 'Algo va mal en openning'
+            message: error.message,
+            error: 'openning.Controller PostCloseSession'
         })
     }
 
