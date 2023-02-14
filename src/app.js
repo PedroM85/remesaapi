@@ -44,6 +44,7 @@ app.use(v1, bancoso)
 //Session
 app.use(v1, Session)
 
+
 app.use((req, res, next) => {
     res.status(404).json({
         message: 'Endpoint not found'
