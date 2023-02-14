@@ -12,7 +12,7 @@ import getCambios from "./routes/v1/cambio.routes.js";
 import Dashboard from "./routes/v1/dashboard.routes.js";
 import gasto from "./routes/v1/gasto.routes.js";
 import bancoso from "./routes/v1/bancoso.routes.js";
-
+import Session from "./routes/v1/salessession.routes.js";
 
 const app = Express()
 
@@ -41,6 +41,9 @@ app.use(v1, Dashboard)
 app.use(v1, gasto)
 //Banco Socios
 app.use(v1, bancoso)
+//Session
+app.use(v1, Session)
+
 
 app.use((req, res, next) => {
     res.status(404).json({
