@@ -7,14 +7,14 @@ const veri = Router();
 
 veri.use((req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
-    console.log(token)
+    // console.log(token)
     if (!token) {
         res.status(401).send({
             error: 'Es necesario un token de autenticacion'
         })
         return
     }
-    console.log(token)
+    // console.log(token)
     if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length);
         
