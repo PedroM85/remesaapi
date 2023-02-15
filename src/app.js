@@ -3,7 +3,7 @@ import v1 from "./apiversion.js";
 import Openning from "./routes/v1/opennin.routes.js";
 import employeesRoutes from "./routes/v1/employees.routes.js";
 import indexRoutes from "./routes/v1/index.routes.js";
-import loginIn from "./routes/v1/login.routes.js"
+import login from "./routes/v1/login.routes.js"
 import GetTasa from "./routes/v1/tasa.routes.js";
 import GetSocio from "./routes/v1/socio.routes.js"
 import GetCli from "./routes/v1/cliente.routes.js";
@@ -18,7 +18,7 @@ const app = Express()
 
 app.use(Express.json())
 //login 
-app.use(v1, loginIn)
+app.use(v1, login)
 //Ruta prueba
 app.use(v1, indexRoutes)
 //tema de usuarios del sistema

@@ -1,7 +1,8 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { KEYJWT } from "../../config.js"
-import { getLogin, getInfo,  postRegisterLogout, postRegisterLogin } from "../../controllers/login.controller.js";
+import SalesDateOpened from "../../middleware/IsSalesDateOpened.js";
+import { getLogin, getInfo, postRegisterLogout, postRegisterLogin } from "../../controllers/login.controller.js";
 
 const router = Router();
 
@@ -14,7 +15,9 @@ router.post('/RegisterLogin', postRegisterLogin);
 router.post('/RegisterLogout', postRegisterLogout);
 
 // router.get('/info', getInfo);
-router.get('/info', verificacion, getInfo);
+router.get('/info', verificacion, SalesDateOpened, getInfo);
+
+router.get('/isopen', SalesDateOpened)
 
 verificacion.use((req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];

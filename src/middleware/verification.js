@@ -14,7 +14,7 @@ veri.use((req, res, next) => {
         })
         return
     }
-    // console.log(token)
+    console.log(token)
     if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length);
         
