@@ -117,19 +117,19 @@ export const isopenning = async (req, res) => {
 
         const Date1 = moment(new Date()).format("YYYY-MM-DD");
 
-        const Querys = 'SELECT ifnull(SSS_DateClosed,"Session open") AS SSS_DateClosed FROM STD_Session WHERE SSS_SDT_Id = ? '
+        const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Date1]
         const result = await pool.query(Querys, Values)
         console.log(result)
-        const SSS_DateClosed = result[0][0].SSS_DateClosed
+        const SDT_DateClosed = result[0][0].SDT_DateClosed
 
-        if (SSS_DateClosed === 'Session open') {
+        if (SDT_DateClosed === 'Session open') {
             res.json({
-                SSS_DateClosed: null
+                SDT_DateClosed: null
             })
         } else {
             res.json({
-                SSS_DateClosed: moment(SSS_DateClosed).format("YYYY-MM-DD")
+                SDT_DateClosed: moment(SDT_DateClosed).format("YYYY-MM-DD")
             })
         }
 

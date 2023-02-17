@@ -8,18 +8,19 @@ IsSalesDateOpened.use(async(req, res, next) => {
     try {
         const Date1 = moment(new Date()).format("YYYY-MM-DD");
 
-        const Querys = 'SELECT SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ?'
+        const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Date1]
         const result = await pool.query(Querys, Values)
-        // console.log(result)
+        console.log(result)
         const SDT_DateClosed = result[0][0].SDT_DateClosed
-        console.log(SDT_DateClosed)
 
-        if (SDT_DateClosed === null) {
-            next()
+        if (SDT_DateClosed === 'Session open') {
+            res.json(
+                next()
+            )
         } else {
-            return res.status(201).json({
-                message: 'No hay dia de cambio aperturado'
+            res.json({
+                SDT_DateClosed: moment(SDT_DateClosed).format("YYYY-MM-DD")
             })
         }
     } catch (error) {
