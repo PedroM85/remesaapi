@@ -1,37 +1,36 @@
-import { json, Router } from "express";
+import { Router } from "express";
 import { pool } from "../db/db.js";
 import moment from "moment-timezone";
 
 const IsSalesDateOpened = Router();
 
-IsSalesDateOpened.get = async (req, res, next) => {
+IsSalesDateOpened.use(async(req, res, next) => {
     try {
-        const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-        
-        const Querys = 'call IsSalesDateOpened(?)'
-        
-        const Values = Date2
-        
-        const [result] = await pool.query(Querys,Values)
-        
+        const Date1 = moment(new Date()).format("YYYY-MM-DD");
 
-        console.log(result)
-        if (!result ) {
-            result.status(401).send ({
-                error: "Vacio"
+        const Querys = 'SELECT SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ?'
+        const Values = [Date1]
+        const result = await pool.query(Querys, Values)
+        // console.log(result)
+        const SDT_DateClosed = result[0][0].SDT_DateClosed
+        console.log(SDT_DateClosed)
+
+        if (SDT_DateClosed === null) {
+            next()
+        } else {
+            return res.status(201).json({
+                message: 'No hay dia de cambio aperturado'
             })
-            return
-        } 
-        else {
-            console.log(result);
-            return result.status(201).json(
-                
-                next()
-            )
         }
     } catch (error) {
-        return error
+        return res.status(401).json({
+            message: error.message,
+            message : result,
+            error: 'openning.Controller PostCloseSession'
+        })
     }
 
-}
+
+})
+
 export default IsSalesDateOpened

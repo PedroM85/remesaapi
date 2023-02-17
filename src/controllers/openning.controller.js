@@ -57,13 +57,13 @@ export const PostSessionsPerSalesDate = async (req, res) => {
 
 export const PostCloseSession = async (req, res) => {
     try {
-        const {SDT_ModifiedBy,SSS_Id} = req.body
-        const Date1 = moment(new Date()).format("YYYY-MM-DD");
+        const { SDT_ModifiedBy, SSS_Id } = req.body
+        const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
-        const Querys = 'UPDATE STD_Session SET SSS_DateClosed = ?, SSS_ModifiedBy = ?\
-    WHERE SSS_Id= ? AND SSS_DateClosed = IS NULL'
+        const Querys = 'UPDATE STD_Session SET SSS_DateClosed = ?, SSS_ModifiedBy = ?,\
+        SSS_ModifiedDateTime = ? WHERE SSS_Id= ?'
 
-        const Values = [Date1,req.body.SDT_ModifiedBy,req.body.SSS_Id]
+        const Values = [Date1, req.body.SDT_ModifiedBy, Date1, req.body.SSS_Id]
 
         const [rows] = await pool.query(Querys, Values)
 
@@ -87,7 +87,7 @@ export const PostCloseSession = async (req, res) => {
 
 export const PostSessionInfo = async (req, res) => {
     try {
-        const {SSS_Id} = req.body        
+        const { SSS_Id } = req.body
 
         const Querys = 'SELECT SSS_DateCreated, SSS_DateClosed FROM STD_Session WHERE SSS_Id = ?'
 
@@ -110,4 +110,33 @@ export const PostSessionInfo = async (req, res) => {
         })
     }
 
+}
+
+export const isopenning = async (req, res) => {
+    try {
+
+        const Date1 = moment(new Date()).format("YYYY-MM-DD");
+
+        const Querys = 'SELECT ifnull(SSS_DateClosed,"Session open") AS SSS_DateClosed FROM STD_Session WHERE SSS_SDT_Id = ? '
+        const Values = [Date1]
+        const result = await pool.query(Querys, Values)
+        console.log(result)
+        const SSS_DateClosed = result[0][0].SSS_DateClosed
+
+        if (SSS_DateClosed === 'Session open') {
+            res.json({
+                SSS_DateClosed: null
+            })
+        } else {
+            res.json({
+                SSS_DateClosed: moment(SSS_DateClosed).format("YYYY-MM-DD")
+            })
+        }
+
+    } catch (error) {
+        return res.status(401).json({
+            message: error.message,
+            error: 'openning.Controller PostCloseSession'
+        })
+    }
 }

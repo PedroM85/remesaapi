@@ -29,7 +29,8 @@ export const getTasaCliente = async (req, res) => {
     try {
 
         const Querys = 'SELECT TAS_Id,concat(DATE_FORMAT(TAS_Date, "%d/%m/%y"), " -> ", TAS_TasaCliente) AS TAS_TasaCli,\
-        TAS_TasaCLiente, TAS_TasaMayorista FROM OP_Tasa WHERE TAS_Active = 1 ORDER BY TAS_Id DESC'
+        TAS_TasaCLiente, TAS_TasaMayorista FROM OP_Tasa WHERE TAS_Active = 1 AND \
+        TAS_Date = CONCAT(DATE_FORMAT(NOW(),"%Y-%m-%d 00:00:00")) ORDER BY TAS_Id DESC'
 
         const [rows] = await pool.query(Querys)
 

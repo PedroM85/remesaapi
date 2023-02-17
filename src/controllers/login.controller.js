@@ -2,7 +2,6 @@ import { pool } from "../db/db.js";
 import { KEYJWT } from "../config.js"
 import moment from "moment-timezone"
 import jwt from "jsonwebtoken";
-import { json } from "express";
 
 
 
@@ -79,49 +78,3 @@ export const postRegisterLogout = async (req, res) => {
     // console.log(error)
 }
 
-export const isopenning = async (req,res) => {
-
-
-    try {
-        // const employee={
-        //     id: 1,
-        //     name: 'Raj',
-        //     department: 'Sales'
-        // }
-        // console.log(employee)
-        // //object into string
-        // const empJsonStr=JSON.stringify(employee)
-        // //JSON. stringify() is used to create a JSON string out
-        // //of an object or array; it serializes a JavaScript object
-        // //into a JSON string.
-        // console.log(empJsonStr)
-        // console.log(empJsonStr.name)
-        // var empObject = JSON.parse(empJsonStr)
-        // //JSON. parse() is used for parsing data that was received
-        // //as JSON; it deserializes a JSON string into a JavaScript object.
-        // console.log(empObject.name)
-
-    const Querys ='SELECT SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = "2023-02-14 00:00:00"'
-    const result =  await pool.query(Querys)
-    console.log(result[0])
-    console.log([ { SDT_DateClosed: null } ])
-
-    if (result[0] === [ { SDT_DateClosed: null } ]){
-        console.log("Null")
-    }else {
-        console.log("a")
-    }
-    // const resultStr = JSON.stringify(result[0])
-    // console.log(resultStr)
-    // const Obj = JSON.parse(result)
-    // console.log(Obj)
-    // // const obj = JSON.parse(result)
-
-    // console.log(obj.SDT_DateClosed)
-
-    // res.json(obj)
-
-    } catch (error) {
-        return error
-    }
-}
