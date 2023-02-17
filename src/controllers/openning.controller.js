@@ -5,7 +5,8 @@ export const GetSalesDateInfo = async (req, res) => {
     try {
 
         const Querys = 'SELECT SDT_Id, SDT_DateOpened, (SELECT COUNT(*) FROM SYS_UserLoggedOn)AS UsersLoggedOn,\
-        ("dia aperturado") AS Message FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
+        ("dia aperturado") AS Message, (SELECT SSS_Id from STD_Session WHERE SSS_SDT_Id = DATE_FORMAT(NOW(), "%Y-%m-%d 00:00:00")\
+         AND SSS_DateClosed IS NULL ) AS  SSS_Id FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
 
         const [rows] = await pool.query(Querys)
         // console.log(rows)
@@ -120,7 +121,7 @@ export const isopenning = async (req, res) => {
         const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Date1]
         const result = await pool.query(Querys, Values)
-        console.log(result)
+        // console.log(result)
         const SDT_DateClosed = result[0][0].SDT_DateClosed
 
         if (SDT_DateClosed === 'Session open') {

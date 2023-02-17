@@ -35,9 +35,12 @@ export const getTasaCliente = async (req, res) => {
         const [rows] = await pool.query(Querys)
 
         if (rows.length <= 0) {
-            return res.status(201).json({
-                message: 'no hay registros previos'
-            })
+            return res.json([{
+                TAS_Id: -9999,
+                TAS_TasaCli: "0",
+                TAS_TasaCLiente: "0",
+                TAS_TasaMayorista: "0"
+            }])
         } else {
             res.json(rows);
         }
@@ -76,20 +79,20 @@ export const postTasa = async (req, res) => {
     try {
         const { TAS_Date, TAS_Socio, TAS_Binance, TAS_DolarPais, TAS_Comision, TAS_TasaFull, TAS_TasaMayorista, TAS_TasaCliente,
             TAS_ModifiedBy, TAS_Active } = req.body
-            //console.log(req.body)
-            const Date1 = moment(TAS_Date).format("YYYY-MM-DD HH:mm:ss");
-            const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+        //console.log(req.body)
+        const Date1 = moment(TAS_Date).format("YYYY-MM-DD HH:mm:ss");
+        const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
         const Querys = 'INSERT INTO OP_Tasa (TAS_Date,TAS_Socio,TAS_Binance,TAS_DolarPais,TAS_Comision,TAS_TasaFull,TAS_TasaMayorista,\
                         TAS_TasaCliente,TAS_CreatedDateTime,TAS_ModifiedDateTime,TAS_ModifiedBy,TAS_Active)\
                         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
-                        //INSERT INTO OP_Tasa 
-                        //(TAS_Date,TAS_Socio,TAS_Binance,TAS_DolarPais,TAS_Comision,TAS_TasaFull,TAS_TasaMayorista,TAS_TasaCliente,\
-                        //TAS_CreatedDateTime,TAS_ModifiedDateTime,TAS_ModifiedBy, TAS_Active
+        //INSERT INTO OP_Tasa 
+        //(TAS_Date,TAS_Socio,TAS_Binance,TAS_DolarPais,TAS_Comision,TAS_TasaFull,TAS_TasaMayorista,TAS_TasaCliente,\
+        //TAS_CreatedDateTime,TAS_ModifiedDateTime,TAS_ModifiedBy, TAS_Active
         const Values = [Date1, req.body.TAS_Socio, req.body.TAS_Binance, req.body.TAS_DolarPais, req.body.TAS_Comision,
             req.body.TAS_TasaFull, req.body.TAS_TasaMayorista, req.body.TAS_TasaCliente, Date2, Date2, req.body.TAS_ModifiedBy,
             req.body.TAS_Active]
-            // console.log(Querys)
-            // console.log(Values)
+        // console.log(Querys)
+        // console.log(Values)
 
         const [rows] = await pool.query(Querys, Values)
         res.send({
@@ -97,7 +100,7 @@ export const postTasa = async (req, res) => {
         })
     } catch (error) {
         return res.status(401).json({
-            message: error.message+ ' Algo va mal en tasa.controller'
+            message: error.message + ' Algo va mal en tasa.controller'
         })
     }
 }

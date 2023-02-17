@@ -63,21 +63,26 @@ export const postCambio = async (req, res) => {
     try {
 
         const { OP_Date, OP_Socio, OP_Cliente, OP_Pesos, OP_Tasa_id, OP_USTDBuy, OP_USTDSell, OP_Status_Id,
-            OP_Operation, OP_CreatedDateTime, OP_ModifiedDateTime, OP_ModifiedBy, OP_Active } = req.body
+            OP_Operation, OP_CreatedDateTime, OP_ModifiedDateTime, OP_ModifiedBy, OP_Active,SSS_Id,SSS_SOB_Id,SSP_SalesAmount } = req.body
 
-        ////console.log(req.body)
+        console.log(req.body)
 
-        const Querys = 'INSERT INTO OP_Remesas(OP_Date,OP_Socio,OP_Cliente,OP_Pesos,OP_Tasa_id,OP_USTDBuy,OP_USTDSell,\
-            OP_Status_Id,OP_Operation,OP_CreatedDateTime,OP_ModifiedDateTime,OP_ModifiedBy,OP_Active)\
-             VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)'
+        // const Querys = 'INSERT INTO OP_Remesas(OP_Date,OP_Socio,OP_Cliente,OP_Pesos,OP_Tasa_id,OP_USTDBuy,OP_USTDSell,\
+        //     OP_Status_Id,OP_Operation,OP_CreatedDateTime,OP_ModifiedDateTime,OP_ModifiedBy,OP_Active)\
+        //      VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);\
+        //      INSERT INTO STD_SessionPaymentType(SSP_SSS_Id,SSP_OSB_Id,SSP_SalesAmount,SSP_CreatedDatetime,SSP_ModifiedDateTime,\
+        //     SSP_ModifiedBy,SSP_Active)\
+        //      VALUES (?,?,?,?,?,?,?)'
+        const Querys = 'call postAddCambio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
         const Date1 = moment(OP_Date).format("YYYY-MM-DD HH:mm:ss");
         const Date2 = moment(OP_CreatedDateTime).format("YYYY-MM-DD HH:mm:ss");
         const Values = [Date1, req.body.OP_Socio, req.body.OP_Cliente, req.body.OP_Pesos, req.body.OP_Tasa_id,
             req.body.OP_USTDBuy, req.body.OP_USTDSell, req.body.OP_Status_Id, req.body.OP_Operation,
-            Date2, Date2, req.body.OP_ModifiedBy, req.body.OP_Active]
+            Date2, Date2, req.body.OP_ModifiedBy, req.body.OP_Active,req.body.SSS_Id,req.body.SSS_SOB_Id,req.body.SSP_SalesAmount,
+        Date2,Date2,req.body.OP_ModifiedBy,req.body.OP_Active]
 
-        //console.log(Values)
+        console.log(Values)
         const [rows] = await pool.query(Querys, Values)
 
         if (rows.length <= 0) {
