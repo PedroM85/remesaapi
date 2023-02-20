@@ -11,7 +11,7 @@ IsSalesDateOpened.use(async(req, res, next) => {
         const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Date1]
         const result = await pool.query(Querys, Values)
-        console.log(result)
+        // console.log(result[0][0].SDT_DateClosed)
         const SDT_DateClosed = result[0][0].SDT_DateClosed
 
         if (SDT_DateClosed === 'Session open') {

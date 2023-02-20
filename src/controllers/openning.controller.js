@@ -5,7 +5,9 @@ export const GetSalesDateInfo = async (req, res) => {
     try {
 
         const Querys = 'SELECT SDT_Id, SDT_DateOpened, (SELECT COUNT(*) FROM SYS_UserLoggedOn)AS UsersLoggedOn,\
-        ("dia aperturado") AS Message FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
+        ("dia aperturado") AS Message, (SELECT ifnull(SSS_Id,"Session closed") from STD_Session\
+        WHERE SSS_SDT_Id = DATE_FORMAT(NOW(), "%Y-%m-%d 00:00:00") AND SSS_DateClosed IS NULL ) AS  SSS_Id\
+         FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
 
         const [rows] = await pool.query(Querys)
         // console.log(rows)
@@ -14,7 +16,12 @@ export const GetSalesDateInfo = async (req, res) => {
                 [{ Message: "No hay dia aperturado" }]
             )
         } else {
-            res.json(rows);
+            res.json([{
+                SDT_Id: rows[0].SDT_Id,
+                SDT_DateOpened:rows[0].SDT_DateOpened,
+                UsersLoggedOn: rows[0].UsersLoggedOn,
+                SSS_Id: rows[0].SSS_Id
+            }]);
         }
     } catch (error) {
         return res.status(401).json({
@@ -120,7 +127,7 @@ export const isopenning = async (req, res) => {
         const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Date1]
         const result = await pool.query(Querys, Values)
-        console.log(result)
+        // console.log(result[0][0].SDT_DateClosed)
         const SDT_DateClosed = result[0][0].SDT_DateClosed
 
         if (SDT_DateClosed === 'Session open') {
@@ -134,9 +141,9 @@ export const isopenning = async (req, res) => {
         }
 
     } catch (error) {
-        return res.status(401).json({
-            message: error.message,
-            error: 'openning.Controller PostCloseSession'
+        return res.json({
+            SDT_DateClosed: '1999-12-31',
+            message: 'No hay coincidencia con la consulta o esta cerrado'
         })
     }
 }

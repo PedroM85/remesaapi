@@ -62,37 +62,39 @@ export const getStatus = async (req, res) => {
 export const postCambio = async (req, res) => {
     try {
 
-        const { OP_Date, OP_Socio, OP_Cliente, OP_Pesos, OP_Tasa_id, OP_USTDBuy, OP_USTDSell, OP_Status_Id,
-            OP_Operation, OP_CreatedDateTime, OP_ModifiedDateTime, OP_ModifiedBy, OP_Active } = req.body
+        const { OP_Socio, OP_Cliente, OP_Pesos,OP_Bank_Id, OP_Tasa_id, OP_USTDBuy, OP_USTDSell, OP_Status_Id,
+            OP_Operation, OP_Session,OP_ModifiedBy, OP_Active } = req.body
+     
+        const Querys = 'call postAddCambio(?,?,?,?,?,?,?,?,?,?,?,?,?)'
 
-        ////console.log(req.body)
+        const Date1 = moment(new Date).format("YYYY-MM-DD HH:mm:ss");
 
-        const Querys = 'INSERT INTO OP_Remesas(OP_Date,OP_Socio,OP_Cliente,OP_Pesos,OP_Tasa_id,OP_USTDBuy,OP_USTDSell,\
-            OP_Status_Id,OP_Operation,OP_CreatedDateTime,OP_ModifiedDateTime,OP_ModifiedBy,OP_Active)\
-             VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)'
+        const Values = [Date1, req.body.OP_Socio, req.body.OP_Cliente, req.body.OP_Pesos, req.body.OP_Bank_Id,
+             req.body.OP_Tasa_id, req.body.OP_USTDBuy, req.body.OP_USTDSell, req.body.OP_Status_Id, req.body.OP_Operation,
+            req.body.OP_Session, req.body.OP_ModifiedBy, req.body.OP_Active]
 
-        const Date1 = moment(OP_Date).format("YYYY-MM-DD HH:mm:ss");
-        const Date2 = moment(OP_CreatedDateTime).format("YYYY-MM-DD HH:mm:ss");
-        const Values = [Date1, req.body.OP_Socio, req.body.OP_Cliente, req.body.OP_Pesos, req.body.OP_Tasa_id,
-            req.body.OP_USTDBuy, req.body.OP_USTDSell, req.body.OP_Status_Id, req.body.OP_Operation,
-            Date2, Date2, req.body.OP_ModifiedBy, req.body.OP_Active]
-
-        //console.log(Values)
+        // console.log(Values)
         const [rows] = await pool.query(Querys, Values)
+        // console.log(rows)
 
-        if (rows.length <= 0) {
-            return res.status(201).json({
-                message: 'no hay registros previos'
-            })
-
-        } else {
-            res.json(rows);
+        if (rows.affectedRows >= 1) {
+            // return res.json({
+            //     message: 'Ok'
+            // })
+            return 'Se registro con exito'
+            
+        }else {
+            // return res.json({
+            //     message: 'Algo pasa'
+            // })
+            return 'Algo paso'
         }
 
     } catch (error) {
-        return res.status(401).json({
-            message: 'Algo va mal en Cambio.controller'
-        })
+        // return res.status(203).json({
+        //     message: 'A'
+        // })
+        return error.message
     }
 
 }
