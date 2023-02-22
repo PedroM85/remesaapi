@@ -92,7 +92,7 @@ export const postCliente = async (req, res) => {
 
 export const putCliente = async (req, res) => {
   try {
-    //////console.log(req.body)
+    ////console.log(req.body)
     const {
       CLI_Name,
       CLI_Banco,
