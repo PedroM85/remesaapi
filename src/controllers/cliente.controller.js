@@ -9,7 +9,7 @@ export const getCliente = async (req, res) => {
         INNER JOIN CLI_Bank ON CLI_Data.CLI_Banco = CLI_Bank.BAN_Id \
         INNER JOIN CLI_BanAccount ON CLI_Bank.BAN_Type= CLI_BanAccount.BAN_ACC_Id \
         WHERE CLI_Active = 1';
-    // const [rows] = await pool.query('SELECT * FROM CLI_Data WHERE CLI_Active = 1')
+    // // const [rows] = await pool.query('SELECT * FROM CLI_Data WHERE CLI_Active = 1')
     const [rows] = await pool.query(Querys);
 
     if (rows.length <= 0) {
