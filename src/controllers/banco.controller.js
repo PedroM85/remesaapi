@@ -8,25 +8,24 @@ export const getBancos = async (req, res) => {
         BAN_ModifiedDateTime FROM CLI_Bank INNER JOIN CLI_BanAccount ON CLI_Bank.BAN_Type = CLI_BanAccount.BAN_ACC_Id \
         WHERE BAN_Active = 1";
 
-    // const Querys = 'SELECT * FROM CLI_Bank WHERE BAN_Active = 1'
-    const [rows] = await pool.query(Querys);
-    // console.log(rows);
-    if (rows.length <= 0) {
-      return res.status(201).json([
-        {
-          BAN_Id: -1,
-        },
-      ]);
-    } else {
-      res.json(rows);
+        // const Querys = 'SELECT * FROM CLI_Bank WHERE BAN_Active = 1'
+        const [rows] = await pool.query(Querys)
+        console.log(rows)
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'no hay registros previos'
+            })
+        } else {
+            res.json(rows);
+        }
+    } catch (error) {
+        return res.status(401).json({
+            message: error.message+ 'Algo va mal en Banco.controller'
+        })
+        //console.log(error.message)
     }
-  } catch (error) {
-    return res.status(401).json({
-      message: error.message,
-    });
-    //console.log(error.message)
-  }
-};
+
+}
 
 export const getBancoId = async (req, res) => {
   try {
@@ -49,23 +48,13 @@ export const getBancoId = async (req, res) => {
 };
 
 export const postBanco = async (req, res) => {
-  try {
-    const { BAN_Name, BAN_Prefix, BAN_Type, BAN_ModifiedBy } = req.body;
-    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    //console.log(req.body)
-    const Query =
-      "INSERT INTO CLI_Bank (BAN_Name,BAN_Type,BAN_Prefix,BAN_CreatedDateTime,BAN_ModifiedDateTime, \
-                        BAN_ModifiedBy,BAN_Active) VALUES (?,?,?,?,?,?,?)";
-    const Values = [
-      req.body.BAN_Name,
-      req.body.BAN_Type,
-      req.body.BAN_Prefix,
-      Date1,
-      Date1,
-      req.body.BAN_ModifiedBy,
-      1,
-    ];
-    const [rows] = await pool.query(Query, Values);
+    try {
+        const { BAN_Name, BAN_Prefix, BAN_Type, BAN_ModifiedBy } = req.body
+        //console.log(req.body)
+        const Query = 'INSERT INTO CLI_Bank (BAN_Name,BAN_Type,BAN_Prefix,BAN_CreatedDateTime,BAN_ModifiedDateTime, \
+                        BAN_ModifiedBy,BAN_Active) VALUES (?,?,?,?,?,?,?)'
+        const Values = [req.body.BAN_Name, req.body.BAN_Type, req.body.BAN_Prefix, new Date(), new Date(), req.body.BAN_ModifiedBy, 1]
+        const [rows] = await pool.query(Query, Values)
 
     if (rows.length <= 0) {
       return res.status(201).json({
@@ -82,30 +71,14 @@ export const postBanco = async (req, res) => {
 };
 
 export const putBanco = async (req, res) => {
-  try {
-    const {
-      BAN_Name,
-      BAN_Prefix,
-      BAN_Type,
-      BAN_ModifiedBy,
-      BAN_Active,
-      BAN_Id,
-    } = req.body;
-    ////console.log(req.body)
-    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    const Query =
-      "UPDATE CLI_Bank SET BAN_Name = ? ,BAN_Prefix = ?,BAN_Type = ?, BAN_ModifiedDateTime = ?, \
-                        BAN_ModifiedBy = ?, BAN_Active = ? WHERE BAN_Id = ?";
-    const Values = [
-      req.body.BAN_Name,
-      req.body.BAN_Prefix,
-      req.body.BAN_Type,
-      Date1,
-      req.body.BAN_ModifiedBy,
-      req.body.BAN_Active,
-      req.body.BAN_Id,
-    ];
-    const [rows] = await pool.query(Query, Values);
+    try {
+        const { BAN_Name, BAN_Prefix, BAN_Type, BAN_ModifiedBy, BAN_Active, BAN_Id } = req.body
+        ////console.log(req.body)
+
+        const Query = 'UPDATE CLI_Bank SET BAN_Name = ? ,BAN_Prefix = ?,BAN_Type = ?, BAN_ModifiedDateTime = ?, \
+                        BAN_ModifiedBy = ?, BAN_Active = ? WHERE BAN_Id = ?'
+        const Values = [req.body.BAN_Name, req.body.BAN_Prefix, req.body.BAN_Type, new Date(), req.body.BAN_ModifiedBy, req.body.BAN_Active, req.body.BAN_Id]
+        const [rows] = await pool.query(Query, Values)
 
     if (rows.length <= 0) {
       return res.status(201).json({
@@ -122,17 +95,10 @@ export const putBanco = async (req, res) => {
 };
 
 export const delBanco = async (req, res) => {
-  try {
-    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    const Query =
-      "UPDATE CLI_Bank SET BAN_ModifiedDateTime = ?,BAN_ModifiedBy = ?, BAN_Active = ? WHERE BAN_Id = ?";
-    const Values = [
-      Date1,
-      req.body.BAN_ModifiedBy,
-      req.body.BAN_Active,
-      req.body.BAN_Id,
-    ];
-    const [rows] = await pool.query(Query, Values);
+    try {
+        const Query = 'UPDATE CLI_Bank SET BAN_ModifiedDateTime = ?,BAN_ModifiedBy = ?, BAN_Active = ? WHERE BAN_Id = ?'
+        const Values = [new Date(), req.body.BAN_ModifiedBy, req.body.BAN_Active, req.body.BAN_Id]
+        const [rows] = await pool.query(Query, Values)
 
     if (rows.length <= 0) {
       return res.status(201).json({
@@ -180,16 +146,16 @@ export const getAccount = async (req, res) => {
 
     const [rows] = await pool.query(Querys);
 
-    if (rows.length <= 0) {
-      return res.status(201).json({
-        message: "no hay registros previos",
-      });
-    } else {
-      res.json(rows);
+        if (rows.length <= 0) {
+            return res.status(201).json({
+                message: 'no hay registros previos'
+            })
+        } else {
+            res.json(rows);
+        }
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Algo va mal en Banco.controller'
+        })
     }
-  } catch (error) {
-    return res.status(401).json({
-      message: "Algo va mal en Banco.controller",
-    });
   }
-};
