@@ -12,9 +12,9 @@ export const getBancos = async (req, res) => {
         const [rows] = await pool.query(Querys)
         console.log(rows)
         if (rows.length <= 0) {
-            return res.status(201).json({
-                message: 'no hay registros previos'
-            })
+            return res.status(201).json([{
+                BAN_Id: -1
+            }])
         } else {
             res.json(rows);
         }
