@@ -10,7 +10,7 @@ export const getBancos = async (req, res) => {
 
         // const Querys = 'SELECT * FROM CLI_Bank WHERE BAN_Active = 1'
         const [rows] = await pool.query(Querys)
-        console.log(rows)
+        // console.log(rows)
         if (rows.length <= 0) {
             return res.status(201).json([{
                 BAN_Id: -1
