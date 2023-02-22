@@ -60,7 +60,7 @@ export const postCliente = async (req, res) => {
       CLI_ModifiedBy,
       CLI_Active,
     } = req.body;
-    //////console.log(req.body)
+    ////console.log(req.body)
     const Query =
       "INSERT INTO CLI_Data (CLI_Nombre,CLI_Banco,CLI_Cuenta,CLI_Titular,CLI_Cedula,CLI_CreatedDateTime, \
             CLI_ModifiedDateTime,CLI_ModifiedBy,CLI_Active) VALUES (?,?,?,?,?,?,?,?,?)";
