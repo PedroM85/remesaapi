@@ -52,7 +52,7 @@ export const postBanco = async (req, res) => {
   try {
     const { BAN_Name, BAN_Prefix, BAN_Type, BAN_ModifiedBy } = req.body;
     const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    //console.log(req.body)
+    // //console.log(req.body)
     const Query =
       "INSERT INTO CLI_Bank (BAN_Name,BAN_Type,BAN_Prefix,BAN_CreatedDateTime,BAN_ModifiedDateTime, \
                         BAN_ModifiedBy,BAN_Active) VALUES (?,?,?,?,?,?,?)";
