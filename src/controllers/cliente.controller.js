@@ -15,7 +15,7 @@ export const getCliente = async (req, res) => {
     if (rows.length <= 0) {
       return res.status(201).json([
         {
-          CLI_Id: -9999,
+          CLI_Id: -1,
         },
       ]);
     } else {
