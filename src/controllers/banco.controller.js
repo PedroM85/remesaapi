@@ -194,3 +194,32 @@ export const getAccount = async (req, res) => {
     });
   }
 };
+
+export const GetBancoXId = async (req, res) => {
+  try {
+    const { BAN_Id } = req.params;
+    console.log(req.params);
+    const Querys =
+      'SELECT BAN_Id, Concat(BAN_Name," ",BAN_ACC_Name)AS BAN_Name ,BAN_Prefix,BAN_ModifiedBy,BAN_Active, \
+        BAN_CreatedDateTime,BAN_ModifiedDateTime FROM CLI_Bank \
+        INNER JOIN CLI_BanAccount ON CLI_Bank.BAN_Type = CLI_BanAccount.BAN_ACC_Id \
+        WHERE BAN_Active = 1 AND BAN_Id = ?';
+
+    const Values = [req.params.BAN_Id];
+    const [rows] = await pool.query(Querys, Values);
+
+    if (rows.length <= 0) {
+      return res.status(201).json([
+        {
+          BAN_Id: -1,
+        },
+      ]);
+    } else {
+      res.json(rows);
+    }
+  } catch (error) {
+    return res.status(401).json({
+      message: "Algo va mal en Banco.controller",
+    });
+  }
+};
