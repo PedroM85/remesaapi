@@ -121,7 +121,7 @@ export const PostSessionInfo = async (req, res) => {
 
 }
 
-export const isopenning = async (req, res) => {
+export const Postisopenning = async (req, res) => {
     try {
         const {Fecha} = req.body
         const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD");
