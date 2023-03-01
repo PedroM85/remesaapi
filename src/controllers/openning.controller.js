@@ -123,8 +123,8 @@ export const PostSessionInfo = async (req, res) => {
 
 export const isopenning = async (req, res) => {
     try {
-
-        const Date1 = moment(new Date()).format("YYYY-MM-DD");
+        const {Fecha} = req.body
+        const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD");
 
         const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Date1]
