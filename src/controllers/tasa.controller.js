@@ -90,7 +90,7 @@ export const postTasa = async (req, res) => {
       TAS_Active,
     } = req.body;
 
-    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    const Date1 = moment(new Date()).format("YYYY-MM-DD 00:00:00");
     const Querys =
       "INSERT INTO OP_Tasa (TAS_Date,TAS_Socio,TAS_Binance,TAS_DolarPais,TAS_Comision,TAS_TasaFull,TAS_TasaMayorista,\
                         TAS_TasaCliente,TAS_CreatedDateTime,TAS_ModifiedDateTime,TAS_ModifiedBy,TAS_Active)\
