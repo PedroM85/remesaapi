@@ -86,8 +86,7 @@ export const postCambio = async (req, res) => {
 
     const Values = [
       Date1,
-      req.body.OP_Socio,
-      Date1,
+      req.body.OP_Socio,     
       req.body.OP_Cliente,
       req.body.OP_Pesos,
       req.body.OP_Bank_Id,

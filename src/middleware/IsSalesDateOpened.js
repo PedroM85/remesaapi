@@ -4,12 +4,12 @@ import moment from "moment-timezone";
 
 const IsSalesDateOpened = Router();
 
-IsSalesDateOpened.use(async(req, res, next) => {
+IsSalesDateOpened.use(async (req, res, next) => {
     try {
-        const Date1 = moment(new Date()).format("YYYY-MM-DD");
-
+        const Fecha = req.Fecha       
+                
         const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
-        const Values = [Date1]
+        const Values = [Fecha]
         const result = await pool.query(Querys, Values)
         // console.log(result[0][0].SDT_DateClosed)
         const SDT_DateClosed = result[0][0].SDT_DateClosed
@@ -25,9 +25,8 @@ IsSalesDateOpened.use(async(req, res, next) => {
         }
     } catch (error) {
         return res.status(401).json({
-            message: error.message,
-            message : result,
-            error: 'openning.Controller PostCloseSession'
+            message: error.message
+
         })
     }
 
