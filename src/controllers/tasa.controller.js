@@ -142,7 +142,7 @@ export const putTasa = async (req, res) => {
       TAS_ModifiedBy,
     } = req.body;
 
-    const Date1 = moment(New Date()).format("YYYY-MM-DD HH:mm:ss");
+    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
     const [rows] = await pool.query(
       "UPDATE OP_Tasa SET TAS_Socio = ?, TAS_Binance = ?, TAS_DolarPais = ?, TAS_Comision = ?, TAS_TasaFull = ?, TAS_TasaMayorista = ?, TAS_TasaCliente = ?, TAS_ModifiedDateTime = ?, TAS_ModifiedBy = ? WHERE TAS_Id = ?",
