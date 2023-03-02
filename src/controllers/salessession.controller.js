@@ -113,14 +113,15 @@ export const PostReOpenSession = async (req, res) => {
 export const PostPaymentTypePerSession = async (req, res) => {
   try {
     const { SSS_Id } = req.body;
+    console.log(req.body.SSS_Id);
 
     const Querys =
       "SELECT OSB_Id,OSB_Nombre, IFNULL(SSP_SalesAmount,0) AS SSP_SalesAmount FROM STD_SessionPaymentType\
         RIGHT JOIN OP_Socios_Bank ON SSP_OSB_Id = OSB_Id\
         AND SSP_SSS_Id = ? WHERE OSB_Active = 1";
-    console.log(Querys);
+    
+        console.log(Querys);
     const Values = [req.body.SSS_Id];
-    console.log(req.body.nSessionId);
     const [rows] = await pool.query(Querys, Values);
     console.log(rows);
     if (rows.length <= 0) {

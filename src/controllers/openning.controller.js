@@ -1,15 +1,17 @@
 import { pool } from "../db/db.js";
 import moment from "moment-timezone";
 
-export const GetSalesDateInfo = async (req, res) => {
+export const PostSalesDateInfo = async (req, res) => {
     try {
-
+        const {Fecha} = req.body
+        console.log(Fecha)
+        const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD 00:00:00");        
         const Querys = 'SELECT SDT_Id, SDT_DateOpened, (SELECT COUNT(*) FROM SYS_UserLoggedOn)AS UsersLoggedOn,\
         ("dia aperturado") AS Message, (SELECT ifnull(SSS_Id,"Session closed") from STD_Session\
-        WHERE SSS_SDT_Id = DATE_FORMAT(NOW(), "%Y-%m-%d 00:00:00") AND SSS_DateClosed IS NULL ) AS  SSS_Id\
+        WHERE SSS_SDT_Id = ? AND SSS_DateClosed IS NULL ) AS  SSS_Id\
          FROM STD_SalesDate WHERE SDT_DateClosed IS NULL'
-
-        const [rows] = await pool.query(Querys)
+        const Values = [Date1]
+        const [rows] = await pool.query(Querys,Values)
         // console.log(rows)
         if (rows.length <= 0) {
             res.json(
