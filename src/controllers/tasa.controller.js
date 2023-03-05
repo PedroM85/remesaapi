@@ -26,14 +26,17 @@ export const getTasa = async (req, res) => {
   }
 };
 
-export const getTasaCliente = async (req, res) => {
+export const postTasaCliente = async (req, res) => {
   try {
+    const {Fecha} = req.body
+    const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD 00:00:00");
+    
     const Querys =
       'SELECT TAS_Id,concat(DATE_FORMAT(TAS_Date, "%d/%m/%y"), " -> ", TAS_TasaCliente) AS TAS_TasaCli,\
         TAS_TasaCLiente, TAS_TasaMayorista FROM OP_Tasa WHERE TAS_Active = 1 AND \
-        TAS_Date = CONCAT(DATE_FORMAT(NOW(),"%Y-%m-%d 00:00:00")) ORDER BY TAS_Id DESC';
-
-    const [rows] = await pool.query(Querys);
+        TAS_Date = ? ORDER BY TAS_Id DESC';
+    const Values = Date1    
+    const [rows] = await pool.query(Querys,Values);
 
     if (rows.length <= 0) {
       return res.json([
