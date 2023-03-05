@@ -79,8 +79,7 @@ export const PostCloseSalesDate = async (req, res) => {
     }
   } catch (error) {
     return res.status(401).json({
-      message: error.message,
-      error: "salessession.Controller PostCloseSalesDate ",
+      message: error.message      
     });
   }
 };
