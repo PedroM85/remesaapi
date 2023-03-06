@@ -12,21 +12,21 @@ export const getLogin = async (req, res) => {
       "SELECT * from sys_users WHERE USR_Id = ?",
       [req.body.USR_Id]
     );
-    console.log(passdb);
+    // console.log(passdb);
 
     if (passdb.length === 0) {
-      return res.status(401).json({
+      return res.status(201).json({
         message: "Usuario o contraseña no validos",
       });
     } else {
-      console.log(USR_Password);
-      console.log(passdb[0].USR_Password);
+      // console.log(USR_Password);
+      // console.log(passdb[0].USR_Password);
 
       const IsMatch = await bcrypt.compare(
         USR_Password,
         passdb[0].USR_Password
       );
-      console.log(IsMatch);
+      // console.log(IsMatch);
 
       if (IsMatch) {
         const payload = {
@@ -51,7 +51,7 @@ export const getLogin = async (req, res) => {
     }
   } catch (error) {
     return res.status(401).json({
-      message: "Something gows wrong",
+      message: error.message
     });
   }
 };
@@ -68,7 +68,7 @@ export const postRegisterLogin = async (req, res) => {
 
     const [rows] = await pool.query(
       "INSERT INTO SYS_UserLoggedOn (ULO_Id,ULO_TRM,ULO_Name,ULO_Ip,ULO_CreatedDateTime) VALUES (?,?,?,?,?)",
-      [ULO_Id, ULO_TRM, ULO_Name, ULO_Ip, new Date()]
+      [ULO_Id, ULO_TRM, ULO_Name, ULO_Ip, moment(new Date()).format("YYYY-MM-DD HH:mm:ss")]
     );
     res.send({
       message: "Autenticacion exitosa",
