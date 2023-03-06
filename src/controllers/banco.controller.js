@@ -198,7 +198,7 @@ export const getAccount = async (req, res) => {
 export const GetBancoXId = async (req, res) => {
   try {
     const { BAN_Id } = req.params;
-    console.log(req.params);
+    // console.log(req.params);
     const Querys =
       'SELECT BAN_Id, Concat(BAN_Name," ",BAN_ACC_Name)AS BAN_Name ,BAN_Prefix,BAN_ModifiedBy,BAN_Active, \
         BAN_CreatedDateTime,BAN_ModifiedDateTime FROM CLI_Bank \
