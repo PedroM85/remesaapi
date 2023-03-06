@@ -29,13 +29,15 @@ export const getTasa = async (req, res) => {
 export const postTasaCliente = async (req, res) => {
   try {
     const {Fecha} = req.body
+    // console.log(Fecha)
     const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD 00:00:00");
-    
+    // console.log(Date1)
     const Querys =
       'SELECT TAS_Id,concat(DATE_FORMAT(TAS_Date, "%d/%m/%y"), " -> ", TAS_TasaCliente) AS TAS_TasaCli,\
         TAS_TasaCLiente, TAS_TasaMayorista FROM OP_Tasa WHERE TAS_Active = 1 AND \
         TAS_Date = ? ORDER BY TAS_Id DESC';
-    const Values = Date1    
+    const Values = [Date1]
+    // console.log(Values)
     const [rows] = await pool.query(Querys,Values);
 
     if (rows.length <= 0) {
@@ -95,7 +97,7 @@ export const postTasa = async (req, res) => {
     } = req.body;
 
     const Date1 = moment(req.body.TAS_Date).format("YYYY-MM-DD 00:00:00");
-    const Date2 = moment(req.body.TAS_Date).format("YYYY-MM-DD HH:mm:ss");
+    const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     const Querys =
       "INSERT INTO OP_Tasa (TAS_Date,TAS_Socio,TAS_Binance,TAS_DolarPais,TAS_Comision,TAS_TasaFull,TAS_TasaMayorista,\
                         TAS_TasaCliente,TAS_CreatedDateTime,TAS_ModifiedDateTime,TAS_ModifiedBy,TAS_Active)\

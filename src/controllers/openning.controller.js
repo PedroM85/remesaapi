@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 export const PostSalesDateInfo = async (req, res) => {
     try {
         const {Fecha} = req.body
-        console.log(Fecha)
+        // console.log(Fecha)
         const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD 00:00:00");        
         const Querys = 'SELECT SDT_Id, SDT_DateOpened, (SELECT COUNT(*) FROM SYS_UserLoggedOn)AS UsersLoggedOn,\
         ("dia aperturado") AS Message, (SELECT ifnull(SSS_Id,"Session closed") from STD_Session\
