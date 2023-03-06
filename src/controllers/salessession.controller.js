@@ -31,11 +31,12 @@ export const PostSessionInfo = async (req, res) => {
 
 export const PostOpenSalesDate = async (req, res) => {
   try {
-    const { SDT_ModifiedBy } = req.body;
+    const { SDT_ModifiedBy, SDT_Fecha } = req.body;
 
-    const Querys = "call postOpenSalesDate(?)";
+    const Date1 = moment(SDT_Fecha).format("YYYY-MM-DD HH:mm:ss");
+    const Querys = "call postOpenSalesDate(?,?)";
     // console.log(Querys)
-    const Values = [req.body.SDT_ModifiedBy];
+    const Values = [req.body.SDT_ModifiedBy, Date1];
 
     const [rows] = await pool.query(Querys, Values);
 
@@ -57,11 +58,11 @@ export const PostOpenSalesDate = async (req, res) => {
 
 export const PostCloseSalesDate = async (req, res) => {
   try {
-    const { SDT_ModifiedBy } = req.body;
-
-    const Querys = "call postCloseSalesDate(?)";
+    const { SDT_ModifiedBy, SDT_Fecha } = req.body;
+    const Date1 = moment(SDT_Fecha).format("YYYY-MM-DD 00:00:00");
+    const Querys = "call postCloseSalesDate(?,?)";
     // console.log(Querys)
-    const Values = [req.body.SDT_ModifiedBy];
+    const Values = [req.body.SDT_ModifiedBy, Date1];
 
     const [rows] = await pool.query(Querys, Values);
     console.log(rows);
@@ -78,8 +79,7 @@ export const PostCloseSalesDate = async (req, res) => {
     }
   } catch (error) {
     return res.status(401).json({
-      message: error.message,
-      error: "salessession.Controller PostCloseSalesDate ",
+      message: error.message      
     });
   }
 };
@@ -119,8 +119,8 @@ export const PostPaymentTypePerSession = async (req, res) => {
       "SELECT OSB_Id,OSB_Nombre, IFNULL(SSP_SalesAmount,0) AS SSP_SalesAmount FROM STD_SessionPaymentType\
         RIGHT JOIN OP_Socios_Bank ON SSP_OSB_Id = OSB_Id\
         AND SSP_SSS_Id = ? WHERE OSB_Active = 1";
-    
-        console.log(Querys);
+
+    console.log(Querys);
     const Values = [req.body.SSS_Id];
     const [rows] = await pool.query(Querys, Values);
     console.log(rows);
@@ -138,11 +138,14 @@ export const PostPaymentTypePerSession = async (req, res) => {
   }
 };
 
-export const GetCounter = async (req, res) => {
+export const PostCounter = async (req, res) => {
   try {
-    const Querys = "call STD_Counter()";
+    const { Fecha } = req.body;
 
-    const [rows] = await pool.query(Querys);
+    const Date1 = moment(Fecha).format("YYYY-MM-DD HH:mm:ss");
+    const Querys = "call STD_Counter(?)";
+    const Values = [Date1];
+    const [rows] = await pool.query(Querys, Values);
 
     if (rows.length <= 0) {
       return res.status(201).json({
