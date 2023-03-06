@@ -95,6 +95,7 @@ export const postTasa = async (req, res) => {
     } = req.body;
 
     const Date1 = moment(req.body.TAS_Date).format("YYYY-MM-DD 00:00:00");
+    const Date2 = moment(req.body.TAS_Date).format("YYYY-MM-DD HH:mm:ss");
     const Querys =
       "INSERT INTO OP_Tasa (TAS_Date,TAS_Socio,TAS_Binance,TAS_DolarPais,TAS_Comision,TAS_TasaFull,TAS_TasaMayorista,\
                         TAS_TasaCliente,TAS_CreatedDateTime,TAS_ModifiedDateTime,TAS_ModifiedBy,TAS_Active)\
@@ -109,8 +110,8 @@ export const postTasa = async (req, res) => {
       req.body.TAS_TasaFull,
       req.body.TAS_TasaMayorista,
       req.body.TAS_TasaCliente,
-      Date1,
-      Date1,
+      Date2,
+      Date2,
       req.body.TAS_ModifiedBy,
       req.body.TAS_Active,
     ];
@@ -141,7 +142,7 @@ export const putTasa = async (req, res) => {
       TAS_ModifiedBy,
     } = req.body;
 
-    const Date1 = moment(req.body.TAS_Date).format("YYYY-MM-DD HH:mm:ss");
+    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
     const [rows] = await pool.query(
       "UPDATE OP_Tasa SET TAS_Socio = ?, TAS_Binance = ?, TAS_DolarPais = ?, TAS_Comision = ?, TAS_TasaFull = ?, TAS_TasaMayorista = ?, TAS_TasaCliente = ?, TAS_ModifiedDateTime = ?, TAS_ModifiedBy = ? WHERE TAS_Id = ?",
