@@ -1,7 +1,7 @@
 import { Router } from "express";
 import veri from "../../middleware/verification.js";
 import {
-  GetCounter,
+  PostCounter,
   PostCloseSalesDate,
   PostOpenSalesDate,
   PostPaymentTypePerSession,
@@ -21,6 +21,6 @@ router.post("/PostReOpenSalesDate", veri, PostReOpenSession);
 
 router.post("/PostPaymentTypePerSession", veri, PostPaymentTypePerSession);
 
-router.get("/GetCounter", veri, GetCounter);
+router.post("/PostCounter", veri, PostCounter);
 
 export default router;
