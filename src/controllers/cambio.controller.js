@@ -6,8 +6,8 @@ export const postCambios = async (req, res) => {
     const { Fecha } = req.body;
     const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD 00:00:00");
     const Date2 = moment(req.body.Fecha).format("YYYY-MM-DD 23:59:59");
-    console.log(Date1);
-    console.log(Date2);
+    // console.log(Date1);
+    // console.log(Date2);
     const Querys =
       'SELECT OP_Id, OP_Date,OP_Socio,OP_Socios.SOC_Name,OP_Cliente, CLI_Data.CLI_Nombre,OP_Pesos,OP_Tasa_id,\
         OP_Tasa.TAS_TasaCliente,OP_USTDBuy,OP_USTDSell,(OP_USTDBuy-OP_USTDSell)AS OP_Resta,OP_Status_Id,\
@@ -16,11 +16,13 @@ export const postCambios = async (req, res) => {
         INNER JOIN CLI_Data ON OP_Remesas.OP_Cliente = CLI_Data.CLI_Id\
         INNER JOIN OP_Tasa ON OP_Remesas.OP_Tasa_id = OP_Tasa.TAS_Id\
         INNER JOIN SYS_Status ON OP_Remesas.OP_Status_Id = SYS_Status.STA_Id\
-        WHERE OP_Remesas.OP_Date BETWEEN CONCAT(CURRENT_DATE(), " 00:00:00") AND CONCAT(CURRENT_DATE(), " 23:59:59")\
+        WHERE OP_Remesas.OP_Date BETWEEN ? AND ?\
         AND OP_Remesas.OP_Active = 1\
         ORDER BY OP_Remesas.OP_Id DESC';
-    // //console.log(Querys)
-    const [rows] = await pool.query(Querys);
+    const Values = [Date1,Date2]
+    // console.log(Querys)
+
+    const [rows] = await pool.query(Querys,Values);
 
     if (rows.length <= 0) {
       return res.status(201).json({
@@ -31,7 +33,7 @@ export const postCambios = async (req, res) => {
     }
   } catch (error) {
     return res.status(401).json({
-      message: "Algo va mal en Banco.controller",
+      message: error.message,
     });
   }
 };
