@@ -65,6 +65,7 @@ export const postCambio = async (req, res) => {
   try {
     const {
       OP_Socio,
+      OP_Date,
       OP_Cliente,
       OP_Pesos,
       OP_Bank_Id,
@@ -79,12 +80,14 @@ export const postCambio = async (req, res) => {
     } = req.body;
 
     const Querys = "call postAddCambio(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-    const Date1 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    
+    const Date1 = moment(req.body.OP_Date).format("YYYY-MM-DD HH:mm:ss");
+    // const Date2 = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
     const Values = [
       Date1,
       req.body.OP_Socio,
+      Date1,
       req.body.OP_Cliente,
       req.body.OP_Pesos,
       req.body.OP_Bank_Id,
