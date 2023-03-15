@@ -29,8 +29,8 @@ export const getTasa = async (req, res) => {
 export const postTasaCliente = async (req, res) => {
   try {
     const {Fecha} = req.body
-    // console.log(Fecha)
-    const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD 00:00:00");
+    // console.log(Fecha)    
+    const Date1 = moment(req.body.Fecha).format("YYYY-MM-DD HH:mm:ss"); 
     // console.log(Date1)
     const Querys =
       'SELECT TAS_Id,concat(DATE_FORMAT(TAS_Date, "%d/%m/%y"), " -> ", TAS_TasaCliente) AS TAS_TasaCli,\
