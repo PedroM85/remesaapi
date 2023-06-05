@@ -125,45 +125,49 @@ export const postCambio = async (req, res) => {
 export const putCambio = async (req, res) => {
   try {
     const {
-      OP_Id,
-      OP_Date,
+      OP_Id,      
       OP_Socio,
       OP_Cliente,
       OP_Pesos,
+      OP_Bank_Id,
       OP_Tasa_id,
       OP_USTDBuy,
       OP_USTDSell,
       OP_Status_Id,
       OP_Operation,
-      OP_ModifiedDateTime,
       OP_ModifiedBy,
       OP_Active,
+      OP_Session
     } = req.body;
 
-    const Querys =
-      "UPDATE OP_Remesas SET OP_Socio = ?,OP_Cliente = ?,OP_Pesos = ?,OP_Tasa_id = ?\
-        ,OP_USTDBuy = ?,OP_USTDSell = ?,OP_Status_Id = ?,OP_Operation = ?,OP_ModifiedDateTime = ?,\
-        OP_ModifiedBy = ?,OP_Active = ? WHERE OP_Id = ?";
+    console.log("1 "+req.body.OP_Bank_Id)
+    // const Querys =
+    //   "UPDATE OP_Remesas SET OP_Socio = ?,OP_Cliente = ?,OP_Pesos = ?,OP_Tasa_id = ?\
+    //     ,OP_USTDBuy = ?,OP_USTDSell = ?,OP_Status_Id = ?,OP_Operation = ?,OP_ModifiedDateTime = ?,\
+    //     OP_ModifiedBy = ?,OP_Active = ? WHERE OP_Id = ?";
+    const Querys =  "call postupdatecambio(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     //const Date1 = moment(OP_Date).format("YYYY-MM-DD HH:mm:ss");
-    const Date2 = moment(OP_ModifiedDateTime).format("YYYY-MM-DD HH:mm:ss");
+    const Date2 =moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     const Values = [
+      req.body.OP_Id,
       req.body.OP_Socio,
       req.body.OP_Cliente,
       req.body.OP_Pesos,
+      req.body.OP_Bank_Id,
       req.body.OP_Tasa_id,
       req.body.OP_USTDBuy,
       req.body.OP_USTDSell,
       req.body.OP_Status_Id,
       req.body.OP_Operation,
-      Date2,
       req.body.OP_ModifiedBy,
+      req.body.OP_Session,
       req.body.OP_Active,
-      req.body.OP_Id,
+      Date2
     ];
 
-    // //console.log(Values)
+    console.log(Values)
     const [rows] = await pool.query(Querys, Values);
-
+console.log([rows])
     if (rows.length <= 0) {
       return res.status(201).json({
         message: "no hay registros previos",
@@ -172,6 +176,7 @@ export const putCambio = async (req, res) => {
       res.json(rows);
     }
   } catch (error) {
+    console.log(error)
     return res.status(401).json({
       message: "Algo va mal en Cambio.controller",
     });
