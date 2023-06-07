@@ -11,7 +11,7 @@ export const getSocio = async (req, res) => {
     if (rows.length <= 0) {
       return res.status(201).json([
         {
-          SOC_Id: -9999,
+          SOC_Id: -1,
         },
       ]);
     } else {
