@@ -36,7 +36,7 @@ export const getLogin = async (req, res) => {
         const token = jwt.sign(payload, KEYJWT, {
           expiresIn: "6h",
         });
-
+        console.log("Se conecto: " + passdb[0].USR_Name)
         res.json({
           USR_Id: passdb[0].USR_Id,
           USR_Name: passdb[0].USR_Name,

@@ -7,7 +7,7 @@ const IsSalesDateOpened = Router();
 IsSalesDateOpened.use(async (req, res, next) => {
     try {
         const Fecha = req.Fecha       
-                
+        console.log(Fecha)
         const Querys = 'SELECT ifnull(SDT_DateClosed,"Session open") AS SDT_DateClosed FROM STD_SalesDate WHERE SDT_Id = ? '
         const Values = [Fecha]
         const result = await pool.query(Querys, Values)
@@ -20,7 +20,7 @@ IsSalesDateOpened.use(async (req, res, next) => {
             )
         } else {
             res.json({
-                SDT_DateClosed: moment(SDT_DateClosed).format("YYYY-MM-DD")
+                SDT_DateClosed: moment(SDT_DateClosed).format("YYYY-MM-DD HH:mm:ss")
             })
         }
     } catch (error) {
