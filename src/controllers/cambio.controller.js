@@ -173,7 +173,7 @@ console.log([rows])
         message: "no hay registros previos",
       });
     } else {
-      res.json(rows);
+      res.json(rows.affectedRows);
     }
   } catch (error) {
     console.log(error)
